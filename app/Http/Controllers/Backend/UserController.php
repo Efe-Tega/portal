@@ -9,6 +9,6 @@ class UserController extends Controller
 {
     public function userDashboard(Request $request)
     {
-        return view('user.user-main');
+        return view('user.index');
     }
 }
