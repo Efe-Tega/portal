@@ -109,7 +109,8 @@
 
                     <!-- Login Button -->
                     <button type="submit"
-                        class="w-full bg-gradient-to-r from-primary-600 to-purple-600 text-white font-semibold py-3 rounded-lg hover:from-primary-700 hover:to-purple-700 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                        class="w-full bg-gradient-to-r from-primary-600 to-purple-600 text-white font-semibold py-3 rounded-lg hover:from-primary-700 hover:to-purple-700 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                        onclick="this.disabled=true; this.form.submit(); this.innerText='Logging...';">
                         Login to Dashboard
                     </button>
                 </form>

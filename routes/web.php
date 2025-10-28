@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\Auth\UserAuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -9,9 +10,14 @@ Route::get('/', function () {
 
 Route::controller(UserAuthController::class)->group(function () {
     Route::get('/login', 'showLogin')->name('user.login');
-
     Route::post('/login', 'userLogin')->name('login');
+});
+
+Route::controller(AdminAuthController::class)->group(function () {
+    Route::get('/admin/login', 'showAdminLogin')->name('admin.show.login');
+    Route::post('/admin/login', 'adminLogin')->name('admin.login');
 });
 
 
 require __DIR__ . '/user.php';
+require __DIR__ . '/admin.php';
