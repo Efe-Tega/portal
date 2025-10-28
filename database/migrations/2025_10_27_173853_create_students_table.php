@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class);
-            $table->enum('gender', ['male', 'female'])->after('email')->nullable();
+            $table->enum('gender', ['male', 'female'])->nullable();
             $table->string('dob')->nullable();
             $table->string('phone')->nullable();
             $table->string('address')->nullable();

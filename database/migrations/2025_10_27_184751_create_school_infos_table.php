@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('school_infos', function (Blueprint $table) {
             $table->id();
+            $table->string('school_name')->nullable();
             $table->timestamps();
         });
     }

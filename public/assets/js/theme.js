@@ -1,56 +1,58 @@
-// Theme Management
-class ThemeManager {
-    constructor() {
-        this.currentTheme = localStorage.getItem('theme') || 'light';
-        this.init();
-    }
+// Sidebar Toggle
+const sidebar = document.getElementById("sidebar");
+const hamburger = document.getElementById("hamburger");
 
-    init() {
-        this.applyTheme(this.currentTheme);
-        this.createThemeToggle();
-    }
+hamburger.addEventListener("click", () => {
+    sidebar.classList.toggle("-translate-x-full");
+});
 
-    applyTheme(theme) {
-        document.documentElement.setAttribute('data-theme', theme);
-        localStorage.setItem('theme', theme);
-        this.currentTheme = theme;
-    }
-
-    toggleTheme() {
-        const newTheme = this.currentTheme === 'light' ? 'dark' : 'light';
-        this.applyTheme(newTheme);
-        this.updateToggleIcon();
-    }
-
-    createThemeToggle() {
-        // Create theme toggle button
-        const toggleButton = document.createElement('button');
-        toggleButton.id = 'themeToggle';
-        toggleButton.className = 'p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors';
-        toggleButton.innerHTML = this.currentTheme === 'light' ? 
-            '<i class="fas fa-moon text-gray-600 dark:text-gray-300 text-xl"></i>' : 
-            '<i class="fas fa-sun text-gray-600 dark:text-gray-300 text-xl"></i>';
-        
-        toggleButton.addEventListener('click', () => this.toggleTheme());
-        
-        // Add to header
-        const header = document.querySelector('header .flex.items-center.justify-between .flex.items-center.space-x-4');
-        if (header) {
-            header.appendChild(toggleButton);
+// Close sidebar when clicking outside on mobile
+document.addEventListener("click", (e) => {
+    if (window.innerWidth < 768) {
+        if (!sidebar.contains(e.target) && !hamburger.contains(e.target)) {
+            sidebar.classList.add("-translate-x-full");
         }
     }
+});
 
-    updateToggleIcon() {
-        const toggleButton = document.getElementById('themeToggle');
-        if (toggleButton) {
-            toggleButton.innerHTML = this.currentTheme === 'light' ? 
-                '<i class="fas fa-moon text-gray-600 dark:text-gray-300 text-xl"></i>' : 
-                '<i class="fas fa-sun text-gray-600 dark:text-gray-300 text-xl"></i>';
-        }
-    }
+// Dark Mode Toggle
+const themeToggle = document.getElementById("themeToggle");
+const htmlElement = document.documentElement;
+
+// Check for saved theme preference or default to 'light' mode
+const currentTheme = localStorage.getItem("theme") || "light";
+if (currentTheme === "dark") {
+    htmlElement.classList.add("dark");
 }
 
-// Initialize theme manager when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    new ThemeManager();
+themeToggle.addEventListener("click", () => {
+    htmlElement.classList.toggle("dark");
+    const theme = htmlElement.classList.contains("dark") ? "dark" : "light";
+    localStorage.setItem("theme", theme);
+});
+
+// Notification Dropdown Toggle
+const notificationBtn = document.getElementById("notificationBtn");
+const notificationDropdown = document.getElementById("notificationDropdown");
+
+notificationBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    notificationDropdown.classList.toggle("hidden");
+    profileDropdown.classList.add("hidden");
+});
+
+// Profile Dropdown Toggle
+const profileBtn = document.getElementById("profileBtn");
+const profileDropdown = document.getElementById("profileDropdown");
+
+profileBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    profileDropdown.classList.toggle("hidden");
+    notificationDropdown.classList.add("hidden");
+});
+
+// Close dropdowns when clicking outside
+document.addEventListener("click", () => {
+    notificationDropdown.classList.add("hidden");
+    profileDropdown.classList.add("hidden");
 });
