@@ -17,12 +17,6 @@
         @include('admin.include.header')
 
         <main class="p-4 sm:p-6 lg:p-8">
-            <!-- Welcome Section -->
-            <div class="mb-8">
-                <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Welcome to Excellence Academy Admin
-                    Portal! 👋</h2>
-                <p class="text-gray-600 dark:text-gray-400 mt-1">Second Term, 2024/2025 Academic Session - Week 8</p>
-            </div>
 
             @yield('admin-content')
         </main>
@@ -37,67 +31,9 @@
         </footer>
     </div>
 
+    <script src="{{ asset('assets/js/theme.js') }}"></script>
+
     <script>
-        // Sidebar Toggle
-        const sidebar = document.getElementById('sidebar');
-        const hamburger = document.getElementById('hamburger');
-        hamburger.addEventListener('click', () => {
-            sidebar.classList.toggle('-translate-x-full');
-        });
-        document.addEventListener('click', (e) => {
-            if (window.innerWidth < 768) {
-                if (!sidebar.contains(e.target) && !hamburger.contains(e.target)) {
-                    sidebar.classList.add('-translate-x-full');
-                }
-            }
-        });
-
-        // Dark Mode Toggle
-        const themeToggle = document.getElementById('themeToggle');
-        const html = document.documentElement;
-        const currentTheme = localStorage.getItem('theme') || 'light';
-        if (currentTheme === 'dark') html.classList.add('dark');
-        themeToggle.addEventListener('click', () => {
-            html.classList.toggle('dark');
-            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
-        });
-
-        // Notification Dropdown
-        const notificationBtn = document.getElementById('notificationBtn');
-        const notificationDropdown = document.getElementById('notificationDropdown');
-        const profileBtn = document.getElementById('profileBtn');
-        const profileDropdown = document.getElementById('profileDropdown');
-
-        notificationBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            notificationDropdown.classList.toggle('hidden');
-            profileDropdown.classList.add('hidden');
-        });
-
-        profileBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            profileDropdown.classList.toggle('hidden');
-            notificationDropdown.classList.add('hidden');
-        });
-
-        // Close dropdowns when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!notificationBtn.contains(e.target) && !notificationDropdown.contains(e.target)) {
-                notificationDropdown.classList.add('hidden');
-            }
-            if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
-                profileDropdown.classList.add('hidden');
-            }
-        });
-
-        // Close dropdowns on Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                notificationDropdown.classList.add('hidden');
-                profileDropdown.classList.add('hidden');
-            }
-        });
-
         // Submenu Toggle Function
         function toggleSubmenu(menuId) {
             const menu = document.getElementById(menuId);

@@ -56,3 +56,11 @@ document.addEventListener("click", () => {
     notificationDropdown.classList.add("hidden");
     profileDropdown.classList.add("hidden");
 });
+
+// Close dropdowns on Escape key
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+        notificationDropdown.classList.add("hidden");
+        profileDropdown.classList.add("hidden");
+    }
+});

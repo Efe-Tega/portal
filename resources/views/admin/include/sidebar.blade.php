@@ -16,7 +16,7 @@
         <nav class="flex-1 p-4 overflow-y-auto">
             <ul class="space-y-1">
                 <!-- Dashboard -->
-                <li><a href="dashboard.html"
+                <li><a href="{{ route('admin.dashboard') }}"
                         class="flex items-center space-x-3 px-4 py-3 text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/20 rounded-lg font-medium"><svg
                             class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -44,7 +44,7 @@
                         </svg>
                     </button>
                     <ul id="studentsMenu" class="hidden ml-4 mt-2 space-y-1">
-                        <li><a href="students.html"
+                        <li><a href="{{ route('admin.all_students') }}"
                                 class="flex items-center space-x-2 px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-lg">
                                 <span class="w-1.5 h-1.5 bg-gray-400 dark:bg-gray-500 rounded-full"></span>
                                 <span>All Students</span>

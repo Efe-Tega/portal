@@ -1,5 +1,12 @@
 @extends('admin.admin-main')
 @section('admin-content')
+    <!-- Welcome Section -->
+    <div class="mb-8">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Welcome to Excellence Academy Admin
+            Portal! 👋</h2>
+        <p class="text-gray-600 dark:text-gray-400 mt-1">Second Term, 2024/2025 Academic Session - Week 8</p>
+    </div>
+
     <!-- Main Stats Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div
