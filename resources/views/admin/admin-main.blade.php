@@ -5,6 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - School Portal</title>
+    <script>
+        // Immediately apply the saved theme before rendering
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme === "dark") {
+            document.documentElement.classList.add("dark");
+        }
+    </script>
     @vite('resources/css/app.css')
 </head>
 

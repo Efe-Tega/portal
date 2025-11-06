@@ -164,7 +164,7 @@
                             </a>
                         </div>
                         <div class="border-t border-gray-200 dark:border-gray-700 py-2">
-                            <a href="../admin-login.html"
+                            <a href="{{ route('admin.logout') }}"
                                 class="flex items-center space-x-3 px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

@@ -35,6 +35,15 @@ class AdminAuthController extends Controller
         return view('admin.index');
     }
 
+    public function adminLogout(Request $request)
+    {
+        if (Auth::guard('admin')->check()) {
+            $this->logActivity('admin', Auth::guard('admin')->id(), $request, 'logout');
+            Auth::guard('admin')->logout();
+        }
+        return redirect()->route('admin.show.login');
+    }
+
     private function logActivity($guard, $id, Request $request, $action)
     {
         AuditLog::create([

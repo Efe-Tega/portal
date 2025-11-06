@@ -67,7 +67,7 @@
 
         <!-- Logout -->
         <div class="p-4 border-t border-gray-200 dark:border-gray-700">
-            <a href="login.html"
+            <a href="{{ route('user.logout') }}"
                 class="flex items-center space-x-3 px-4 py-3 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg font-medium">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

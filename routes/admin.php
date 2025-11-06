@@ -9,6 +9,7 @@ Route::prefix('admin')->name('admin.')
         // Authentication
         Route::controller(AdminAuthController::class)->group(function () {
             Route::get('/dashboard', 'adminDashboard')->name('dashboard');
+            Route::get('/logout', 'adminLogout')->name('logout');
         });
 
         // Student Mangemenet
