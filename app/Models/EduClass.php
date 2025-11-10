@@ -6,5 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class EduClass extends Model
 {
-    //
+    protected $table = "classes";
+
+    protected $guarded = [];
 }

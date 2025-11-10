@@ -16,51 +16,13 @@
         <nav class="flex-1 p-4 overflow-y-auto">
             <ul class="space-y-1">
                 <!-- Dashboard -->
-                <li><a href="{{ route('admin.dashboard') }}"
-                        class="flex items-center space-x-3 px-4 py-3 text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/20 rounded-lg font-medium"><svg
-                            class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
-                            </path>
-                        </svg><span>Dashboard</span></a></li>
+                <x-sidebar-link route="admin.dashboard" label="Dashboard" icon="home" />
 
                 <!-- Students with Dropdown -->
-                <li>
-                    <button
-                        class="w-full flex items-center justify-between px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg font-medium"
-                        onclick="toggleSubmenu('studentsMenu')">
-                        <div class="flex items-center space-x-3">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
-                                </path>
-                            </svg>
-                            <span>Students</span>
-                        </div>
-                        <svg class="w-4 h-4 transition-transform" id="studentsMenuIcon" fill="none"
-                            stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
-                            </path>
-                        </svg>
-                    </button>
-                    <ul id="studentsMenu" class="hidden ml-4 mt-2 space-y-1">
-                        <li><a href="{{ route('admin.all_students') }}"
-                                class="flex items-center space-x-2 px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-lg">
-                                <span class="w-1.5 h-1.5 bg-gray-400 dark:bg-gray-500 rounded-full"></span>
-                                <span>All Students</span>
-                            </a></li>
-                        <li><a href="students/add-student.html"
-                                class="flex items-center space-x-2 px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-lg">
-                                <span class="w-1.5 h-1.5 bg-gray-400 dark:bg-gray-500 rounded-full"></span>
-                                <span>Add New Student</span>
-                            </a></li>
-                        <li><a href="students/view-student.html"
-                                class="flex items-center space-x-2 px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-lg">
-                                <span class="w-1.5 h-1.5 bg-gray-400 dark:bg-gray-500 rounded-full"></span>
-                                <span>Student Profile</span>
-                            </a></li>
-                    </ul>
-                </li>
+                <x-sidebar-submenu id="studentsMenu" title="Students" icon="users" :routes="['admin.students.*']">
+                    <x-sidebar-submenu-item route="admin.students.all_students" label="All Students" />
+                    <x-sidebar-submenu-item route="admin.students.add_student" label="Add New Student" />
+                </x-sidebar-submenu>
 
                 <!-- Teachers with Dropdown -->
                 <li>

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Student;
+use App\Models\EduClass;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -11,9 +11,41 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class StudentManagement extends Controller
 {
-    public function allStudents()
+    public function allStudents(Request $request)
     {
-        return view('admin.students.index');
+        $classes = EduClass::all();
+        $query = User::with('class');
+
+
+        if ($search = $request->get('search')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('firstname', 'like', "%{$search}%")
+                    ->orWhere('lastname', 'like', "%{$search}%")
+                    ->orWhere('registration_number', 'like', "%{$search}%");
+            });
+        }
+
+        if ($filter = $request->filled('class_id')) {
+            $query->where('class_id', $request->class_id);
+        }
+
+        $totalStudents = User::all()->count();
+        $activeStudents = User::where('status', 'active')->count();
+        $students = $query->paginate(10)->withQueryString();
+
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view('admin.students.partials.table-rows', compact('students'))->render(),
+            ]);
+        }
+
+        return view('admin.students.index', [
+            'students' => $students,
+            'classes' => $classes,
+            'selectedClassId' => $request->class_id,
+            'totalStudents' => $totalStudents,
+            'activeStudents' => $activeStudents,
+        ]);
     }
 
     public function importStudents(Request $request)

@@ -13,6 +13,7 @@
         }
     </script>
     @vite('resources/css/app.css')
+    @livewireStyles
 </head>
 
 <body class="bg-gray-50 dark:bg-gray-900">
@@ -38,7 +39,7 @@
         </footer>
     </div>
 
-    <script src="{{ asset('assets/js/theme.js') }}"></script>
+    <script src="{{ asset('system_assets/assets/js/theme.js') }}"></script>
 
     <script>
         // Submenu Toggle Function
@@ -64,6 +65,7 @@
             icon.classList.toggle('rotate-180');
         }
     </script>
+    @livewireScripts
 </body>
 
 </html>
