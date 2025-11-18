@@ -4,9 +4,9 @@
     <!-- Breadcrumb -->
     <div class="mb-6">
         <nav class="flex text-sm text-gray-500 dark:text-gray-400">
-            <a href="../dashboard.html" class="hover:text-primary-600">Dashboard</a>
+            <a href="{{ route('admin.dashboard') }}" class="hover:text-primary-600">Dashboard</a>
             <span class="mx-2">/</span>
-            <a href="../students.html" class="hover:text-primary-600">Students</a>
+            <span>Students</span>
             <span class="mx-2">/</span>
             <span class="text-gray-900 dark:text-white">All Students</span>
         </nav>

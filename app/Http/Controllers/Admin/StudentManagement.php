@@ -3,8 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Country;
 use App\Models\EduClass;
+use App\Models\LocalGovernment;
+use App\Models\School;
+use App\Models\Student;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -15,7 +20,6 @@ class StudentManagement extends Controller
     {
         $classes = EduClass::all();
         $query = User::with('class');
-
 
         if ($search = $request->get('search')) {
             $query->where(function ($q) use ($search) {
@@ -46,6 +50,110 @@ class StudentManagement extends Controller
             'totalStudents' => $totalStudents,
             'activeStudents' => $activeStudents,
         ]);
+    }
+
+    public function addNewStudent()
+    {
+        $classes = EduClass::all();
+        $schools = School::all();
+        $countries = Country::all();
+        $nigeriaId = Country::where('name', 'Nigeria')->value('id');
+
+        return view('admin.students.add-student', [
+            'classes' => $classes,
+            'schools' => $schools,
+            'countries' => $countries,
+            'nigeriaId' => $nigeriaId,
+        ]);
+    }
+
+    public function registerNewStudent(Request $request)
+    {
+        dd($request->admission_date);
+
+        $request->validate([
+            'firstname' => 'required',
+            'lastname' => 'required',
+            'dob' => 'required',
+            'country' => 'required',
+            'state' => 'required',
+
+            'class_id' => 'required',
+            'admission_date' => 'required',
+            'school_id' => 'required',
+
+            'guardian_name' => 'required',
+            'guardian_relationship' => 'required',
+            'guardian_phone' => 'required',
+            'address' => 'required',
+        ], [
+            'firstname.required' => 'Please enter student firstname',
+            'lastname.required' => 'Please enter student surname',
+            'dob.required' => 'Date of Birth cannot be left empty',
+            'country.required' => 'Please select a country',
+            'state.required' => 'Please select a state',
+            'class_id.required' => 'Student class is required',
+            'admission_date.required' => 'Please enter admission date',
+            'school_id.required' => 'Educational level is required',
+            'guardian_name.required' => 'This field is required',
+            'guardian_relationship.required' => 'This field is required',
+            'guardian_phone.required' => 'Please enter phone number',
+            'address.required' => 'Please enter address',
+        ]);
+
+
+        $year = date('y');
+
+
+        // Fetch school code
+        $schoolCode = strtoupper(School::where('id', $request->school_id)->value('code'));
+
+        // Get last registration number for this school & year
+        $lastReg = User::where('school_id', $request->school_id)
+            ->where('registration_number', 'like', "NRS/$year/$schoolCode/%")
+            ->orderBy('id', 'desc')
+            ->value('registration_number');
+
+        if ($lastReg) {
+            $lastNumber = (int) substr($lastReg, strrpos($lastReg, '/') + 1);
+            $newNumber = str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT);
+        } else {
+            $newNumber = '0001';
+        }
+
+        $registrationNumber = "NRS/$year/$schoolCode/$newNumber";
+
+        // Create the new student
+        $userId = User::insertGetId([
+            'class_id' => $request->class_id,
+            'school_id' => $request->school_id,
+            'registration_number' => $registrationNumber,
+            'firstname' => $request->firstname,
+            'middlename' => $request->middlename,
+            'lastname' => $request->lastname,
+            'status' => 'active',
+            'graduated' => false,
+            'password' => Hash::make($request->lastname),
+            'created_at' => Carbon::now(),
+        ]);
+
+        Student::insert([
+            'user_id' => $userId,
+            'gender' => $request->gender,
+            'dob' => $request->dob,
+            'country' => $request->country,
+            'state' => $request->state,
+            'local_government' => $request->local_government,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'guardian_name' => $request->guardian_name,
+            'guardian_relationship' => $request->guardian_relationship,
+            'guardian_phone' => $request->guardian_phone,
+            'guardian_email' => $request->guardian_email,
+            'created_at' => Carbon::now(),
+        ]);
+
+        return redirect()->back()->with('success', 'Student created successfully');
     }
 
     public function importStudents(Request $request)

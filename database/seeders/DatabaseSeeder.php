@@ -2,11 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\AcademicYear;
-use App\Models\Admin;
-use App\Models\Term;
-use App\Models\User;
-use Carbon\Carbon;
+use App\Models\School;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -31,9 +27,19 @@ class DatabaseSeeder extends Seeder
         //     'password' => Hash::make('111'),
         // ]);
 
-        AcademicYear::create([
-            'name' => '2024/2025',
-            'created_at' => Carbon::now()
+        School::insert([
+            [
+                'name' => 'Basic Science',
+                'code' => 'BS'
+            ],
+            [
+                'name' => 'Junior School',
+                'code' => 'JS'
+            ],
+            [
+                'name' => 'Secondary School',
+                'code' => 'SS'
+            ]
         ]);
     }
 }

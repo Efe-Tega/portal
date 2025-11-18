@@ -14,10 +14,16 @@ return new class extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->enum('gender', ['male', 'female'])->nullable();
+            $table->string('religion')->nullable();
             $table->string('dob')->nullable();
+            $table->string('country')->nullable();
+            $table->string('state')->nullable();
+            $table->string('local_government')->nullable();
+            $table->date('admission_date')->nullable();
             $table->string('phone')->nullable();
+            $table->string('passport')->nullable();
             $table->string('address')->nullable();
             $table->string('guardian_name')->nullable();
             $table->string('guardian_relationship')->nullable();

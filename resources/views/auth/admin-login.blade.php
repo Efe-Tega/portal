@@ -190,7 +190,7 @@
     </div>
 
 
-    <script src="{{ asset('assets/js/auth.js') }}"></script>
+    <script src="{{ asset('system_assets/assets/js/auth.js') }}"></script>
 
     <script>
         // Password Toggle

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\StudentManagement;
 use App\Http\Controllers\Auth\AdminAuthController;
+use App\Http\Controllers\CountryController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')
@@ -18,5 +19,6 @@ Route::prefix('admin')->name('admin.')
             Route::get('/add/student', 'addNewStudent')->name('students.add_student');
 
             Route::post('/import/student', 'importStudents')->name('import.students');
+            Route::post('/create/student', 'registerNewStudent')->name('create.new_student');
         });
     });
