@@ -1,4 +1,5 @@
 @extends('admin.admin-main')
+@section('header', 'All Students')
 
 @section('admin-content')
     <!-- Breadcrumb -->
@@ -171,7 +172,7 @@
                 </td>
                 <td class="px-6 py-4">
                     <div class="flex items-center space-x-2">
-                        <a href="student-profile.html?id=2024-SS2-0385"
+                        <a href="{{ route('admin.student.profile', [$student->id, strtolower($student->lastname . '_' . $student->firstname)]) }}"
                             class="p-2 text-primary-600 dark:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-lg transition-colors"
                             title="View Profile">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -191,7 +192,7 @@
                                 </path>
                             </svg>
                         </button>
-                        <button
+                        <a href="{{ route('admin.delete.student', $student->id) }}" id="delete"
                             class="p-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
                             title="Delete">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -199,7 +200,7 @@
                                     d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
                                 </path>
                             </svg>
-                        </button>
+                        </a>
                     </div>
                 </td>
             </tr>
@@ -249,6 +250,7 @@
         </div>
     </div>
 
+    <script src="{{ asset('system_assets/assets/js/code.js') }}"></script>
     <script>
         // Import Modal
         const importModal = document.getElementById('importModal');

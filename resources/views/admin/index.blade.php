@@ -1,4 +1,5 @@
 @extends('admin.admin-main')
+@section('header', 'Dashboard Overview')
 @section('admin-content')
     <!-- Welcome Section -->
     <div class="mb-8">

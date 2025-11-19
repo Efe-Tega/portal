@@ -17,6 +17,8 @@ Route::prefix('admin')->name('admin.')
         Route::controller(StudentManagement::class)->group(function () {
             Route::get('/all/students', 'allStudents')->name('students.all_students');
             Route::get('/add/student', 'addNewStudent')->name('students.add_student');
+            Route::get('/student/profile/{id}/{name}', 'studentProfile')->name('student.profile');
+            Route::get('/delete/student/{id}', 'deleteStudent')->name('delete.student');
 
             Route::post('/import/student', 'importStudents')->name('import.students');
             Route::post('/create/student', 'registerNewStudent')->name('create.new_student');

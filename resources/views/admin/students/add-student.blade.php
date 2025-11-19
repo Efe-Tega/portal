@@ -1,4 +1,5 @@
 @extends('admin.admin-main')
+@section('header', 'Add Students')
 @section('admin-content')
     <!-- Breadcrumb -->
     <div class="mb-6">

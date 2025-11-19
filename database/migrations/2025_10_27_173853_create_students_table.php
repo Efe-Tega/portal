@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Country;
+use App\Models\LocalGovernment;
+use App\Models\State;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -18,9 +21,9 @@ return new class extends Migration
             $table->enum('gender', ['male', 'female'])->nullable();
             $table->string('religion')->nullable();
             $table->string('dob')->nullable();
-            $table->string('country')->nullable();
-            $table->string('state')->nullable();
-            $table->string('local_government')->nullable();
+            $table->foreignIdFor(Country::class)->nullable();
+            $table->foreignIdFor(State::class)->nullable();
+            $table->foreignIdFor(LocalGovernment::class)->nullable();
             $table->date('admission_date')->nullable();
             $table->string('phone')->nullable();
             $table->string('passport')->nullable();

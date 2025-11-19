@@ -69,8 +69,6 @@ class StudentManagement extends Controller
 
     public function registerNewStudent(Request $request)
     {
-        dd($request->admission_date);
-
         $request->validate([
             'firstname' => 'required',
             'lastname' => 'required',
@@ -140,10 +138,12 @@ class StudentManagement extends Controller
         Student::insert([
             'user_id' => $userId,
             'gender' => $request->gender,
+            'religion' => $request->religion,
             'dob' => $request->dob,
-            'country' => $request->country,
-            'state' => $request->state,
-            'local_government' => $request->local_government,
+            'country_id' => $request->country,
+            'state_id' => $request->state,
+            'local_government_id' => $request->local_government,
+            'admission_date' => $request->admission_date,
             'phone' => $request->phone,
             'address' => $request->address,
             'guardian_name' => $request->guardian_name,
@@ -156,6 +156,19 @@ class StudentManagement extends Controller
         return redirect()->back()->with('success', 'Student created successfully');
     }
 
+    public function studentProfile($id)
+    {
+        $studentInfo = User::findOrFail($id);
+        return view('admin.students.student-profile', compact('studentInfo'));
+    }
+
+    public function deleteStudent($id)
+    {
+        User::findOrFail($id)->delete();
+        return redirect()->back();
+    }
+
+    // To be used on the CBT project and deleted
     public function importStudents(Request $request)
     {
         try {
