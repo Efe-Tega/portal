@@ -7,15 +7,28 @@ use App\Models\Country;
 use App\Models\EduClass;
 use App\Models\LocalGovernment;
 use App\Models\School;
+use App\Models\State;
 use App\Models\Student;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use StudentRegistration;
 
 class StudentManagement extends Controller
 {
+    public function getSchool($id)
+    {
+        $class = EduClass::find($id);
+
+        return response()->json([
+            'school_id' => $class?->school_id
+        ]);
+    }
+
+
     public function allStudents(Request $request)
     {
         $classes = EduClass::all();
@@ -99,27 +112,7 @@ class StudentManagement extends Controller
             'address.required' => 'Please enter address',
         ]);
 
-
-        $year = date('y');
-
-
-        // Fetch school code
-        $schoolCode = strtoupper(School::where('id', $request->school_id)->value('code'));
-
-        // Get last registration number for this school & year
-        $lastReg = User::where('school_id', $request->school_id)
-            ->where('registration_number', 'like', "NRS/$year/$schoolCode/%")
-            ->orderBy('id', 'desc')
-            ->value('registration_number');
-
-        if ($lastReg) {
-            $lastNumber = (int) substr($lastReg, strrpos($lastReg, '/') + 1);
-            $newNumber = str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT);
-        } else {
-            $newNumber = '0001';
-        }
-
-        $registrationNumber = "NRS/$year/$schoolCode/$newNumber";
+        $registrationNumber = StudentRegistration::generateRegistrationNumber($request->school_id);
 
         // Create the new student
         $userId = User::insertGetId([
@@ -160,6 +153,120 @@ class StudentManagement extends Controller
     {
         $studentInfo = User::findOrFail($id);
         return view('admin.students.student-profile', compact('studentInfo'));
+    }
+
+    public function editStudent($id)
+    {
+        $studentData = User::with('student')->findOrFail($id);
+        $countries = Country::all();
+        $classes = EduClass::all();
+        $schools = School::all();
+        $states = State::all();
+        $lga = LocalGovernment::all();
+        $nigeriaId = Country::where('name', 'Nigeria')->value('id');
+        return view(
+            'admin.students.edit-student',
+            compact(
+                'studentData',
+                'countries',
+                'classes',
+                'schools',
+                'states',
+                'nigeriaId',
+                'lga'
+            )
+        );
+    }
+
+    public function updateStudent(Request $request)
+    {
+        $request->validate([
+            'firstname' => 'required',
+            'lastname' => 'required',
+            'dob' => 'required',
+            'country' => 'required',
+            'state' => 'required',
+
+            'class_id' => 'required',
+            'admission_date' => 'required',
+            'school_id' => 'required',
+
+            'guardian_name' => 'required',
+            'guardian_relationship' => 'required',
+            'guardian_phone' => 'required',
+            'address' => 'required',
+        ], [
+            'firstname.required' => 'Please enter student firstname',
+            'lastname.required' => 'Please enter student surname',
+            'dob.required' => 'Date of Birth cannot be left empty',
+            'country.required' => 'Please select a country',
+            'state.required' => 'Please select a state',
+            'class_id.required' => 'Student class is required',
+            'admission_date.required' => 'Please enter admission date',
+            'school_id.required' => 'Educational level is required',
+            'guardian_name.required' => 'This field is required',
+            'guardian_relationship.required' => 'This field is required',
+            'guardian_phone.required' => 'Please enter phone number',
+            'address.required' => 'Please enter address',
+        ]);
+
+
+
+
+        $id = $request->id;
+        $student = User::findOrFail($id);
+        $schoolId = $request->school_id;
+
+        $oldSchool = $student->school_id;
+        $oldClass = $student->class_id;
+
+        if ($oldSchool != $schoolId || $oldClass != $request->class_id) {
+
+            $registration_number = StudentRegistration::generateRegistrationNumber($schoolId);
+
+            // Update User model table
+            $student->update([
+                'class_id' => $request->class_id,
+                'school_id' => $schoolId,
+                'registration_number' => $registration_number,
+                'firstname' => $request->firstname,
+                'middlename' => $request->middlename,
+                'lastname' => $request->lastname,
+                'status' => 'active',
+                'graduated' => false,
+                'password' => Hash::make($request->lastname),
+            ]);
+        } else {
+
+            $student->update([
+                'firstname' => $request->firstname,
+                'middlename' => $request->middlename,
+                'lastname' => $request->lastname,
+                'status' => 'active',
+                'graduated' => false,
+                'password' => Hash::make($request->lastname),
+            ]);
+        }
+
+        // Update Student table
+        Student::where('user_id', $id)->update([
+            'gender' => $request->gender,
+            'religion' => $request->religion,
+            'dob' => $request->dob,
+            'country_id' => $request->country,
+            'state_id' => $request->state,
+            'local_government_id' => $request->local_government,
+            'admission_date' => $request->admission_date,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'guardian_name' => $request->guardian_name,
+            'guardian_relationship' => $request->guardian_relationship,
+            'guardian_phone' => $request->guardian_phone,
+            'guardian_email' => $request->guardian_email,
+        ]);
+
+
+        return redirect()->back()->with('success', 'Student data updated successfully');
     }
 
     public function deleteStudent($id)

@@ -15,6 +15,7 @@
     </div>
 
     @php
+        $age = \Carbon\Carbon::parse($studentInfo->student->dob ?? '')->age;
         $fullname = $studentInfo->lastname . ' ' . $studentInfo->middlename . ' ' . $studentInfo->firstname;
         $initials = collect(explode(' ', $fullname))->map(fn($p) => strtoupper($p[0]))->join('');
     @endphp
@@ -39,15 +40,15 @@
                         Student {{ ucfirst($studentInfo->status) }}
                     </span>
                     <span class="px-4 py-2 bg-white/20 backdrop-blur-sm text-white rounded-lg text-sm font-medium">
-                        Admitted: {{ formatDate($studentInfo->student->admission_date) }}
+                        Admitted: {{ formatDate($studentInfo->student->admission_date ?? '') }}
                     </span>
                     <span class="px-4 py-2 bg-white/20 backdrop-blur-sm text-white rounded-lg text-sm font-medium">
-                        Age: 16 years
+                        Age: {{ $age }} years
                     </span>
                 </div>
             </div>
             <div class="flex flex-col sm:flex-row gap-3">
-                <button
+                <a href="{{ route('admin.edit.student', [$studentInfo->id, $studentInfo->lastname . '_' . $studentInfo->firstname]) }}"
                     class="px-6 py-3 bg-white text-primary-600 rounded-lg font-medium hover:bg-gray-100 transition-colors">
                     <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -55,7 +56,7 @@
                         </path>
                     </svg>
                     Edit Profile
-                </button>
+                </a>
                 <button
                     class="px-6 py-3 bg-white/20 backdrop-blur-sm text-white rounded-lg font-medium hover:bg-white/30 transition-colors">
                     <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -123,12 +124,12 @@
                             <div>
                                 <label class="text-sm font-medium text-gray-600 dark:text-gray-400">Date of Birth</label>
                                 <p class="mt-1 text-gray-900 dark:text-white font-medium">
-                                    {{ formatDate($studentInfo->student->dob, 'F j, Y') }}</p>
+                                    {{ formatDate($studentInfo->student->dob ?? '', 'F j, Y') }}</p>
                             </div>
                             <div>
                                 <label class="text-sm font-medium text-gray-600 dark:text-gray-400">Gender</label>
                                 <p class="mt-1 text-gray-900 dark:text-white font-medium">
-                                    {{ $studentInfo->student->gender }}</p>
+                                    {{ $studentInfo->student->gender ?? '' }}</p>
                             </div>
                             <div>
                                 <label class="text-sm font-medium text-gray-600 dark:text-gray-400">Blood Group</label>
@@ -137,28 +138,28 @@
                             <div>
                                 <label class="text-sm font-medium text-gray-600 dark:text-gray-400">State of Origin</label>
                                 <p class="mt-1 text-gray-900 dark:text-white font-medium">
-                                    {{ $studentInfo->student->state->name }} State</p>
+                                    {{ $studentInfo->student->state->name ?? '' }} State</p>
                             </div>
                             <div>
                                 <label class="text-sm font-medium text-gray-600 dark:text-gray-400">LGA</label>
                                 <p class="mt-1 text-gray-900 dark:text-white font-medium">
-                                    {{ $studentInfo->student->lga->name }}</p>
+                                    {{ $studentInfo->student->lga->name ?? '' }}</p>
                             </div>
                             <div>
                                 <label class="text-sm font-medium text-gray-600 dark:text-gray-400">Religion</label>
                                 <p class="mt-1 text-gray-900 dark:text-white font-medium">
-                                    {{ ucfirst($studentInfo->student->religion) }}</p>
+                                    {{ ucfirst($studentInfo->student->religion ?? '') }}</p>
                             </div>
                             <div>
                                 <label class="text-sm font-medium text-gray-600 dark:text-gray-400">Nationality</label>
                                 <p class="mt-1 text-gray-900 dark:text-white font-medium">
-                                    {{ $studentInfo->student->country->name }}</p>
+                                    {{ $studentInfo->student->country->name ?? '' }}</p>
                             </div>
                             <div class="md:col-span-2">
                                 <label class="text-sm font-medium text-gray-600 dark:text-gray-400">Residential
                                     Address</label>
                                 <p class="mt-1 text-gray-900 dark:text-white font-medium">
-                                    {{ $studentInfo->student->address }}</p>
+                                    {{ $studentInfo->student->address ?? '' }}</p>
                             </div>
                         </div>
                     </div>
@@ -179,22 +180,22 @@
                             <div>
                                 <label class="text-sm font-medium text-gray-600 dark:text-gray-400">Guardian Name</label>
                                 <p class="mt-1 text-gray-900 dark:text-white font-medium">
-                                    {{ $studentInfo->student->guardian_name }}</p>
+                                    {{ $studentInfo->student->guardian_name ?? '' }}</p>
                             </div>
                             <div>
                                 <label class="text-sm font-medium text-gray-600 dark:text-gray-400">Relationship</label>
                                 <p class="mt-1 text-gray-900 dark:text-white font-medium">
-                                    {{ $studentInfo->student->guardian_relationship }}</p>
+                                    {{ $studentInfo->student->guardian_relationship ?? '' }}</p>
                             </div>
                             <div>
                                 <label class="text-sm font-medium text-gray-600 dark:text-gray-400">Phone Number</label>
                                 <p class="mt-1 text-gray-900 dark:text-white font-medium">
-                                    {{ $studentInfo->student->guardian_phone }}</p>
+                                    {{ $studentInfo->student->guardian_phone ?? '' }}</p>
                             </div>
                             <div>
                                 <label class="text-sm font-medium text-gray-600 dark:text-gray-400">Email Address</label>
                                 <p class="mt-1 text-gray-900 dark:text-white font-medium">
-                                    {{ $studentInfo->student->guardian_email }}</p>
+                                    {{ $studentInfo->student->guardian_email ?? '' }}</p>
                             </div>
                             <div>
                                 <label class="text-sm font-medium text-gray-600 dark:text-gray-400">Occupation</label>
@@ -234,12 +235,12 @@
                             <div>
                                 <label class="text-sm font-medium text-gray-600 dark:text-gray-400">Admission Date</label>
                                 <p class="mt-1 text-gray-900 dark:text-white font-medium">
-                                    {{ formatDate($studentInfo->student->admission_date) }}</p>
+                                    {{ formatDate($studentInfo->student->admission_date ?? '') }}</p>
                             </div>
                             <div>
                                 <label class="text-sm font-medium text-gray-600 dark:text-gray-400">Previous School</label>
                                 <p class="mt-1 text-gray-900 dark:text-white font-medium">
-                                    {{ $studentInfo->student->previous_school }}</p>
+                                    {{ $studentInfo->student->previous_school ?? '' }}</p>
                             </div>
                             <div>
                                 <label class="text-sm font-medium text-gray-600 dark:text-gray-400">House</label>

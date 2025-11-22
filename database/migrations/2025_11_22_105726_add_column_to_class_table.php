@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\School;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,10 +12,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('students', function (Blueprint $table) {
-            $table->string('local_government_text')->after('local_government_id')->nullable();
-            $table->string('previous_school')->nullable();
-            $table->string('emergency_contact')->nullable();
+        Schema::table('classes', function (Blueprint $table) {
+            $table->foreignIdFor(School::class)->after('name');
         });
     }
 
@@ -23,7 +22,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('students', function (Blueprint $table) {
+        Schema::table('classes', function (Blueprint $table) {
             //
         });
     }

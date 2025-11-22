@@ -19,8 +19,11 @@ Route::prefix('admin')->name('admin.')
             Route::get('/add/student', 'addNewStudent')->name('students.add_student');
             Route::get('/student/profile/{id}/{name}', 'studentProfile')->name('student.profile');
             Route::get('/delete/student/{id}', 'deleteStudent')->name('delete.student');
+            Route::get('/edit/student/{id}/{name}', 'editStudent')->name('edit.student');
+            Route::get('/class/{id}/school', 'getSchool');
 
             Route::post('/import/student', 'importStudents')->name('import.students');
             Route::post('/create/student', 'registerNewStudent')->name('create.new_student');
+            Route::post('/update/student', 'updateStudent')->name('update.student');
         });
     });
