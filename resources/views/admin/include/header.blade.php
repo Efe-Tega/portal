@@ -106,6 +106,20 @@
                     </div>
                 </div>
 
+                @php
+                    if (Auth::guard('admin')->check()) {
+                        $logoutRoute = route('admin.logout');
+                        $name = Auth::guard('admin')->user()->name;
+                        $email = Auth::guard('admin')->user()->email;
+                    } elseif (Auth::guard('teacher')->check()) {
+                        $logoutRoute = route('teacher.logout');
+                        $name = Auth::guard('teacher')->user()->name;
+                        $email = Auth::guard('teacher')->user()->email;
+                    } else {
+                        $logoutRoute = '#';
+                    }
+                @endphp
+
                 <!-- Profile Dropdown -->
                 <div class="relative">
                     <button id="profileBtn"
@@ -115,7 +129,7 @@
                             <span class="text-white font-semibold text-sm">AD</span>
                         </div>
                         <div class="hidden md:block text-left">
-                            <div class="text-sm font-semibold text-gray-900 dark:text-white">Admin User</div>
+                            <div class="text-sm font-semibold text-gray-900 dark:text-white">{{ $name }}</div>
                             <div class="text-xs text-gray-500 dark:text-gray-400">System Administrator</div>
                         </div>
                         <svg class="w-4 h-4 text-gray-600 dark:text-gray-300 hidden md:block" fill="none"
@@ -128,8 +142,8 @@
                     <div id="profileDropdown"
                         class="hidden absolute right-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50">
                         <div class="p-4 border-b border-gray-200 dark:border-gray-700">
-                            <p class="text-sm font-semibold text-gray-900 dark:text-white">Admin User</p>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">admin@excellenceacademy.edu.ng
+                            <p class="text-sm font-semibold text-gray-900 dark:text-white">{{ $name }}</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">{{ $email }}
                             </p>
                         </div>
                         <div class="py-2">
@@ -164,7 +178,7 @@
                             </a>
                         </div>
                         <div class="border-t border-gray-200 dark:border-gray-700 py-2">
-                            <a href="{{ route('admin.logout') }}"
+                            <a href="{{ $logoutRoute }}"
                                 class="flex items-center space-x-3 px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
