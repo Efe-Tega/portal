@@ -17,7 +17,7 @@ class TeacherAuth
     public function handle(Request $request, Closure $next): Response
     {
         if (!Auth::guard('teacher')->check()) {
-            // return redirect()->route();
+            return redirect()->route('teacher.show.login');
         }
         return $next($request);
     }

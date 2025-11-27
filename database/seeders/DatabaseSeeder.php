@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\School;
+use App\Models\Teacher;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -27,19 +28,25 @@ class DatabaseSeeder extends Seeder
         //     'password' => Hash::make('111'),
         // ]);
 
-        School::insert([
-            [
-                'name' => 'Basic Science',
-                'code' => 'BS'
-            ],
-            [
-                'name' => 'Junior School',
-                'code' => 'JS'
-            ],
-            [
-                'name' => 'Secondary School',
-                'code' => 'SS'
-            ]
+        Teacher::create([
+            'name' => 'Kareem Abosede',
+            'email' => 'kareem@gmail.com',
+            'password' => Hash::make('123456'),
         ]);
+
+        // School::insert([
+        //     [
+        //         'name' => 'Basic Science',
+        //         'code' => 'BS'
+        //     ],
+        //     [
+        //         'name' => 'Junior School',
+        //         'code' => 'JS'
+        //     ],
+        //     [
+        //         'name' => 'Secondary School',
+        //         'code' => 'SS'
+        //     ]
+        // ]);
     }
 }

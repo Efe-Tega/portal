@@ -25,8 +25,13 @@
         @include('admin.include.header')
 
         <main class="p-4 sm:p-6 lg:p-8">
+            @auth('admin')
+                @yield('admin-content')
+            @endauth
 
-            @yield('admin-content')
+            @auth('teacher')
+                @yield('teacher-content')
+            @endauth
         </main>
 
         <!-- Footer -->

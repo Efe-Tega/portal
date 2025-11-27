@@ -1,4 +1,4 @@
-@extends('admin.admin-main')
+@extends('layouts.app')
 @section('header', 'Dashboard Overview')
 @section('admin-content')
     <!-- Welcome Section -->
