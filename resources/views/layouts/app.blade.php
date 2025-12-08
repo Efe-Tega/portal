@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - School Portal</title>
+    <title> @yield('title') - School Portal</title>
     <script>
         // Immediately apply the saved theme before rendering
         const savedTheme = localStorage.getItem("theme");
@@ -18,11 +18,11 @@
 
 <body class="bg-gray-50 dark:bg-gray-900">
     <!-- Sidebar -->
-    @include('admin.include.sidebar')
+    @include('layouts.include.sidebar')
 
     <div class="md:ml-64">
         <!-- Top Navigation -->
-        @include('admin.include.header')
+        @include('layouts.include.header')
 
         <main class="p-4 sm:p-6 lg:p-8">
             @auth('admin')
@@ -47,6 +47,21 @@
     <script src="{{ asset('system_assets/assets/js/theme.js') }}"></script>
 
     <script>
+        // Auto-check every 1 minute
+        setInterval(function() {
+            fetch(window.location.href, {
+                method: "GET",
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            }).then(response => {
+                // 419 means session expired → reload page
+                if (response.status === 419) {
+                    window.location.reload();
+                }
+            }).catch(() => {});
+        }, 60000); // check every 60 seconds
+
         // Submenu Toggle Function
         function toggleSubmenu(menuId) {
             const menu = document.getElementById(menuId);
@@ -70,7 +85,7 @@
             icon.classList.toggle('rotate-180');
         }
     </script>
-    @livewireScripts
+    @stack('scripts')
 </body>
 
 </html>

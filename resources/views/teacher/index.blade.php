@@ -1,4 +1,6 @@
 @extends('layouts.app')
+@section('title', 'Teacher Dashboard')
+@section('header', 'Dashboard Overview')
 @section('teacher-content')
     <!-- Welcome Section -->
     <div class="mb-8">

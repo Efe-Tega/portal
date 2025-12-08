@@ -79,7 +79,7 @@
                 <div>
                     <x-auth-form-field class="focus:ring-red-500" id="adminId" label="Email Address" name="email"
                         type="email" required="true" placeholder="Enter admin ID or email">
-                        <x-icons.user />
+                        <x-icons.auth-user />
                     </x-auth-form-field>
                 </div>
 

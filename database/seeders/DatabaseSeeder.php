@@ -28,11 +28,13 @@ class DatabaseSeeder extends Seeder
         //     'password' => Hash::make('111'),
         // ]);
 
-        Teacher::create([
-            'name' => 'Kareem Abosede',
-            'email' => 'kareem@gmail.com',
-            'password' => Hash::make('123456'),
-        ]);
+        // Teacher::create([
+        //     'name' => 'Kareem Abosede',
+        //     'email' => 'kareem@gmail.com',
+        //     'password' => Hash::make('123456'),
+        // ]);
+
+        Teacher::factory()->count(10)->create();
 
         // School::insert([
         //     [

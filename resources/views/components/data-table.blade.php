@@ -1,3 +1,5 @@
+@props(['url' => null])
+
 @php
     if (!isset($item)) {
         $item = null;
@@ -11,7 +13,8 @@
         <h3 class="text-lg font-bold text-gray-900 dark:text-white">{{ $title }}</h3>
         <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
             @if ($searchable)
-                <input id="searchInput" type="text" name="search" value="{{ request('search') }}" placeholder="Search..."
+                <input id="searchInput" type="text" name="search" data-url="{{ $url }}"
+                    value="{{ request('search') }}" placeholder="Search..."
                     class="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-sm text-gray-900 dark:text-white">
             @endif
             {{ $buttons ?? '' }}
@@ -117,7 +120,7 @@
         const tableBody = document.getElementById('tableBody');
 
         function fetchData(url = null) {
-            const baseUrl = url || "{{ route('admin.students.all_students') }}";
+            const baseUrl = url || searchInput.dataset.url;
             const params = new URLSearchParams({
                 search: searchInput?.value || '',
             });

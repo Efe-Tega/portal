@@ -20,7 +20,7 @@
 
         <div class="flex items-center space-x-3">
             @if ($icon)
-                @includeIf('icons.' . $icon)
+                @includeIf('components/icons.' . $icon)
             @endif
             <span>{{ $title }}</span>
         </div>

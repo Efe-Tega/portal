@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Admin Dashboard')
 @section('header', 'Dashboard Overview')
 @section('admin-content')
     <!-- Welcome Section -->

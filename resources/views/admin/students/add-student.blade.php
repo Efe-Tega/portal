@@ -1,4 +1,4 @@
-@extends('admin.admin-main')
+@extends('layouts.app')
 @section('header', 'Add Students')
 @section('admin-content')
     <!-- Breadcrumb -->

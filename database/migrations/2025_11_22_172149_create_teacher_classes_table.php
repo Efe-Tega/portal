@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Subject;
 use App\Models\Teacher;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -14,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('teacher_classes', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Teacher::class)->nullable();
-            $table->json('subject_ids')->nullable();
-            $table->json('class_ids')->nullable();
+            $table->foreignIdFor(Teacher::class)->constrained()->cascadeOnDelete()->nullable();
+            $table->foreignId('class_id')->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Subject::class)->constrained()->cascadeOnDelete()->nullable();
             $table->timestamps();
         });
     }

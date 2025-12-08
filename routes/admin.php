@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\StudentManagement;
+use App\Http\Controllers\Admin\TeacherManagement;
 use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\CountryController;
 use Illuminate\Support\Facades\Route;
@@ -25,5 +26,13 @@ Route::prefix('admin')->name('admin.')
             Route::post('/import/student', 'importStudents')->name('import.students');
             Route::post('/create/student', 'registerNewStudent')->name('create.new_student');
             Route::post('/update/student', 'updateStudent')->name('update.student');
+        });
+
+        // TeacherManagement
+        Route::controller(TeacherManagement::class)->group(function () {
+            Route::get('/teachers', 'allTeachers')->name('teachers.all_teachers');
+
+            Route::post('/assign/classes', 'assignClasses')->name('assign.classes');
+            Route::delete('/teachers/{teacher}/classes/{class}', 'unassignClass')->name('unassign.class');
         });
     });

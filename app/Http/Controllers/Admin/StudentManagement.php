@@ -42,10 +42,6 @@ class StudentManagement extends Controller
             });
         }
 
-        if ($filter = $request->filled('class_id')) {
-            $query->where('class_id', $request->class_id);
-        }
-
         $totalStudents = User::all()->count();
         $activeStudents = User::where('status', 'active')->count();
         $students = $query->paginate(10)->withQueryString();
@@ -209,9 +205,6 @@ class StudentManagement extends Controller
             'guardian_phone.required' => 'Please enter phone number',
             'address.required' => 'Please enter address',
         ]);
-
-
-
 
         $id = $request->id;
         $student = User::findOrFail($id);

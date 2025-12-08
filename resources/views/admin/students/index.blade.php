@@ -1,4 +1,5 @@
-@extends('admin.admin-main')
+@extends('layouts.app')
+@section('title', 'Student Management')
 @section('header', 'All Students')
 
 @section('admin-content')
@@ -134,7 +135,7 @@
     </div>
 
     <!-- Students Table -->
-    <x-data-table title="All Students" :columns="['S/N', 'Student', 'Student ID', 'Class', 'Gender', 'Status']" :item="$students" searchable="true" :filters="[['label' => 'Class', 'options' => ['All Classes', 'JSS1', 'JSS2', 'JSS3', 'SS1', 'SS2', 'SS3']]]">
+    <x-data-table title="All Students" :columns="['S/N', 'Student', 'Student ID', 'Class', 'Gender', 'Status']" :item="$students" searchable="false">
         <x-slot name="buttons">
             <button id="importStudentBtn"
                 class="px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700 flex items-center justify-center">

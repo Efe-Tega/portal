@@ -40,4 +40,17 @@ class TeacherAuthController extends Controller
             'password' => 'Incorrect email or password'
         ])->withInput($request->only('email'));
     }
+
+    public function teacherDashboard()
+    {
+        return view('teacher.index');
+    }
+
+    public function teacherLogout(Request $request)
+    {
+        Auth::guard('teacher')->logout();
+        $request->session()->regenerateToken();
+
+        return redirect('/teacher/login');
+    }
 }

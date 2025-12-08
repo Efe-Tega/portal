@@ -9,4 +9,8 @@ class EduClass extends Model
     protected $table = "classes";
 
     protected $guarded = [];
+    public function teachers()
+    {
+        return $this->belongsToMany(Teacher::class, 'teacher_classes', 'class_id', 'teacher_id');
+    }
 }

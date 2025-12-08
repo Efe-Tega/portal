@@ -11,4 +11,19 @@ document.addEventListener("DOMContentLoaded", function () {
             html.classList.contains("dark") ? "dark" : "light"
         );
     });
+
+    // Auto-check every 1 minute
+    setInterval(function () {
+        fetch(window.location.href, {
+            method: "GET",
+            headers: {
+                "X-Requested-With": "XMLHttpRequest"
+            }
+        }).then(response => {
+            // 419 means session expired → reload page
+            if (response.status === 419) {
+                window.location.reload();
+            }
+        }).catch(() => {});
+    }, 60000); // check every 60 seconds
 });
