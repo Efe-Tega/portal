@@ -28,7 +28,7 @@
                     <!-- Teachers with Dropdown -->
                     <x-sidebar-submenu id="teachersMenu" title="Teachers" icon="pupils" :routes="['admin.teachers.*']">
                         <x-sidebar-submenu-item route="admin.teachers.all_teachers" label="All Teachers" />
-                        <x-sidebar-submenu-item route="admin.teachers.all_teachers" label="Add New Teachers" />
+                        <x-sidebar-submenu-item route="admin.teachers.add_teacher" label="Add New Teachers" />
                     </x-sidebar-submenu>
 
                     <!-- Academics with Dropdown -->

@@ -61,4 +61,9 @@ class TeacherManagement extends Controller
         session()->flash('success', 'Class unassigned');
         return redirect()->back();
     }
+
+    public function addNewTeacher()
+    {
+        return view('admin.teacher.add-teacher');
+    }
 }

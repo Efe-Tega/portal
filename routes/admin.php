@@ -31,6 +31,7 @@ Route::prefix('admin')->name('admin.')
         // TeacherManagement
         Route::controller(TeacherManagement::class)->group(function () {
             Route::get('/teachers', 'allTeachers')->name('teachers.all_teachers');
+            Route::get('/add/teacher', 'addNewTeacher')->name('teachers.add_teacher');
 
             Route::post('/assign/classes', 'assignClasses')->name('assign.classes');
             Route::delete('/teachers/{teacher}/classes/{class}', 'unassignClass')->name('unassign.class');

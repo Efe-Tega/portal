@@ -78,15 +78,15 @@
                 <!-- Admin ID -->
                 <div>
                     <x-auth-form-field class="focus:ring-red-500" id="adminId" label="Email Address" name="email"
-                        type="email" required="true" placeholder="Enter admin ID or email">
+                        type="email" required="true" placeholder="Enter admin ID or email" value="">
                         <x-icons.auth-user />
                     </x-auth-form-field>
                 </div>
 
                 <!-- Password -->
                 <div>
-                    <x-auth-form-field class="focus:ring-red-500" label="Password" name="password" id="password"
-                        required="true" placeholder="Enter Password">
+                    <x-auth-form-field class="focus:ring-red-500" type="password" label="Password" name="password"
+                        id="password" required="true" placeholder="Enter Password">
                         <x-icons.lock />
                     </x-auth-form-field>
                 </div>
@@ -154,24 +154,6 @@
 
 
     <script src="{{ asset('system_assets/assets/js/auth.js') }}"></script>
-
-    <script>
-        // Password Toggle
-        const togglePassword = document.getElementById('togglePassword');
-        const password = document.getElementById('password');
-        const eyeOpen = document.getElementById('eyeOpen');
-        const eyeClosed = document.getElementById('eyeClosed');
-
-        togglePassword.addEventListener('click', () => {
-            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-            password.setAttribute('type', type);
-            eyeOpen.classList.toggle('hidden');
-            eyeClosed.classList.toggle('hidden');
-        });
-
-        // Auto-focus on first input
-        document.getElementById('adminId').focus();
-    </script>
 </body>
 
 </html>

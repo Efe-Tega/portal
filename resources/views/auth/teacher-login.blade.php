@@ -66,8 +66,8 @@
 
                 <!-- Email ID -->
                 <div>
-                    <x-auth-form-field id="staffId" type="email" label="Email address" name="email"
-                        placeholder="Enter email address">
+                    <x-auth-form-field class="focus:ring-emerald-500" id="staffId" type="email" value=""
+                        label="Email address" name="email" placeholder="Enter email address">
                         <x-icons.email />
                     </x-auth-form-field>
                 </div>
@@ -134,24 +134,6 @@
     </div>
 
     <script src="{{ asset('system_assets/assets/js/auth.js') }}"></script>
-
-    <script>
-        // Password Toggle
-        const togglePassword = document.getElementById('togglePassword');
-        const password = document.getElementById('password');
-        const eyeOpen = document.getElementById('eyeOpen');
-        const eyeClosed = document.getElementById('eyeClosed');
-
-        togglePassword.addEventListener('click', () => {
-            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-            password.setAttribute('type', type);
-            eyeOpen.classList.toggle('hidden');
-            eyeClosed.classList.toggle('hidden');
-        });
-
-        // Auto-focus on first input
-        document.getElementById('staffId').focus();
-    </script>
 </body>
 
 </html>
