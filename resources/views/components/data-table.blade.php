@@ -65,13 +65,13 @@
                     {{-- Previous --}}
                     @if ($item->onFirstPage())
                         <button
-                            class="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg opacity-50 cursor-not-allowed"
+                            class="px-3 py-1 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg opacity-50 cursor-not-allowed"
                             disabled>
                             Previous
                         </button>
                     @else
                         <a href="{{ $item->previousPageUrl() }}"
-                            class="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600">
+                            class="px-3 py-1 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600">
                             Previous
                         </a>
                     @endif
@@ -80,12 +80,12 @@
                     @foreach ($item->getUrlRange(1, $item->lastPage()) as $page => $url)
                         @if ($page == $item->currentPage())
                             <span
-                                class="px-3 py-2 text-sm font-medium text-white bg-primary-600 border border-primary-600 rounded-lg">
+                                class="px-3 py-1 text-sm font-medium text-white bg-primary-600 border border-primary-600 rounded-lg">
                                 {{ $page }}
                             </span>
                         @elseif ($page <= 3 || $page > $item->lastPage() - 2 || abs($item->currentPage() - $page) <= 1)
                             <a href="{{ $url }}"
-                                class="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600">
+                                class="px-3 py-1 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600">
                                 {{ $page }}
                             </a>
                         @elseif ($page == 4 && $item->currentPage() > 4)
@@ -98,12 +98,12 @@
                     {{-- Next --}}
                     @if ($item->hasMorePages())
                         <a href="{{ $item->nextPageUrl() }}"
-                            class="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600">
+                            class="px-3 py-1 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600">
                             Next
                         </a>
                     @else
                         <button
-                            class="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg opacity-50 cursor-not-allowed"
+                            class="px-3 py-1 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg opacity-50 cursor-not-allowed"
                             disabled>
                             Next
                         </button>

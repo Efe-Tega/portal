@@ -15,8 +15,8 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Students</p>
-                    <p class="text-3xl font-bold text-gray-900 dark:text-white mt-2">135</p>
-                    <p class="text-sm text-primary-600 dark:text-primary-400 mt-1">Across 3 classes</p>
+                    <p class="text-3xl font-bold text-gray-900 dark:text-white mt-2">{{ $totalStudents }}</p>
+                    <p class="text-sm text-primary-600 dark:text-primary-400 mt-1">Across {{ $classCount }} classes</p>
                 </div>
                 <div class="w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
                     <svg class="w-6 h-6 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor"

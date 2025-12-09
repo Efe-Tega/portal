@@ -42,9 +42,11 @@ class StudentManagement extends Controller
             });
         }
 
+        $selectedClassId = $request->class_id ?? $classes->first()->id;
+
         $totalStudents = User::all()->count();
         $activeStudents = User::where('status', 'active')->count();
-        $students = $query->paginate(10)->withQueryString();
+        $students = $query->where('class_id', $selectedClassId)->paginate(10)->withQueryString();
 
         if ($request->ajax()) {
             return response()->json([

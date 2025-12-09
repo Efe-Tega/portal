@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Teacher;
+use App\Models\TeacherClass;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -43,7 +45,15 @@ class TeacherAuthController extends Controller
 
     public function teacherDashboard()
     {
-        return view('teacher.index');
+        $teacherId = Auth::guard('teacher')->user()->id;
+        $totalStudents = User::whereIn(
+            'class_id',
+            TeacherClass::where('teacher_id', $teacherId)->pluck('class_id')
+        )->count();
+
+        $classCount = TeacherClass::where('teacher_id', $teacherId)->count();
+
+        return view('teacher.index', compact('totalStudents', 'classCount'));
     }
 
     public function teacherLogout(Request $request)
