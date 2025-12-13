@@ -58,28 +58,23 @@
         </div>
 
         <!-- Students Table -->
-        <x-data-table title="Student List" :columns="['#', 'Student Name', 'Admission No', 'Class', 'Gender', 'Current Average', 'Attendance']" :item="$students">
+        <x-data-table title="{{ $studentClass->name }} Student List" :columns="['#', 'Student Name', 'Admission No', 'Class', 'Gender', 'Current Average', 'Attendance']" :item="$students">
             <!-- Table Body -->
             @foreach ($students as $key => $student)
-                @php
-                    $fullname = $student->lastname . ' ' . $student->firstname;
-                    $initials = collect(explode(' ', $fullname))->map(fn($p) => strtoupper($p[0]))->join('');
-                @endphp
-
                 <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                        {{ $key + 1 }}</td>
+                        {{ ($students->currentPage() - 1) * $students->perPage() + ($key + 1) }}</td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="flex items-center">
                             <div
                                 class="w-10 h-10 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center flex-shrink-0">
                                 <span
-                                    class="text-primary-600 dark:text-primary-400 font-semibold text-sm">{{ $initials }}</span>
+                                    class="text-primary-600 dark:text-primary-400 font-semibold text-sm">{{ initials($student->lastname, $student->firstname) }}</span>
                             </div>
 
                             <div class="ml-4">
                                 <div class="text-sm font-medium text-gray-900 dark:text-white">
-                                    {{ $fullname }}
+                                    {{ fullname($student->lastname, $student->middlename, $student->firstname) }}
                                 </div>
                             </div>
 

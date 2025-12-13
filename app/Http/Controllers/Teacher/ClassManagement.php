@@ -21,7 +21,8 @@ class ClassManagement extends Controller
 
         $query = User::with('class');
         $students = $query->where('class_id', $selectedClassId)->paginate(10)->withQueryString();
+        $studentClass = EduClass::where('id', $selectedClassId)->first();
 
-        return view('teacher.classes.index', compact('classes', 'students', 'selectedClassId'));
+        return view('teacher.classes.index', compact('classes', 'students', 'selectedClassId', 'studentClass'));
     }
 }

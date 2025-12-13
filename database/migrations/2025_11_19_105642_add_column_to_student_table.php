@@ -12,9 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('students', function (Blueprint $table) {
-            $table->string('local_government_text')->after('local_government_id')->nullable();
             $table->string('previous_school')->nullable();
-            $table->string('emergency_contact')->nullable();
         });
     }
 

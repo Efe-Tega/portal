@@ -14,6 +14,9 @@
     </script>
     @vite('resources/css/app.css')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Toastify CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
 </head>
 
 <body class="bg-gray-50 dark:bg-gray-900">
@@ -45,6 +48,12 @@
     </div>
 
     <script src="{{ asset('system_assets/assets/js/theme.js') }}"></script>
+
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <!-- Toastr -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     <script>
         // Auto-check every 1 minute

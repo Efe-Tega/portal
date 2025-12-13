@@ -84,11 +84,11 @@
                 @auth('teacher')
                     <x-sidebar-link route="teacher.dashboard" label="Dashboard" icon="home" />
                     <x-sidebar-link route="teacher.classes" label="My Classes" icon="pupils" />
-                    <x-sidebar-link route="admin.dashboard" label="Attendance" icon="clipboard_check" />
-                    <x-sidebar-link route="admin.dashboard" label="Grade Input" icon="signal_bars" />
-                    <x-sidebar-link route="admin.dashboard" label="Assignments" icon="file" />
-                    <x-sidebar-link route="admin.dashboard" label="Timetable" icon="calender" />
-                    <x-sidebar-link route="admin.dashboard" label="Profile" icon="user" />
+                    <x-sidebar-link route="teacher.attendance" label="Attendance" icon="clipboard_check" />
+                    <x-sidebar-link route="teacher.dashboard" label="Grade Input" icon="signal_bars" />
+                    <x-sidebar-link route="teacher.dashboard" label="Assignments" icon="file" />
+                    <x-sidebar-link route="teacher.dashboard" label="Timetable" icon="calender" />
+                    <x-sidebar-link route="teacher.dashboard" label="Profile" icon="user" />
                 @endauth
 
             </ul>
