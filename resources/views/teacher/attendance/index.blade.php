@@ -149,6 +149,9 @@
                             timeOut: 1500
                         });
                     })
+                    .then(() => {
+                        fetchAttendanceCounts();
+                    })
                     .catch(() => {
                         toastr.error('Fail to save attendance');
                     })
@@ -202,7 +205,11 @@
                             status === 'present' ? 'All Students marked present' :
                             'All students marked absent'
                         );
-                    }).catch(() => {
+                    })
+                    .then(() => {
+                        fetchAttendanceCounts();
+                    })
+                    .catch(() => {
                         toastr.error('Failed to mark attendance. Try again');
                     });
 
@@ -276,7 +283,26 @@
                     .catch(err => console.error('Error fetching attendance:', err));
             }
 
+            function fetchAttendanceCounts() {
+                if (!classSelect.value || !dateInput.value) return;
+
+                fetch(
+                        `{{ route('teacher.attendance.counts') }}?class_id=${classSelect.value}&attendance_date=${dateInput.value}`
+                    )
+                    .then(res => res.json())
+                    .then(data => {
+                        document.getElementById('presentCount').textContent = data.present ?? 0;
+                        document.getElementById('absentCount').textContent = data.absent ?? 0;
+                        document.getElementById('lateCount').textContent = data.late ?? 0;
+                    })
+                    .catch(() => {
+                        console.error('Failed to fetch attendance counts');
+                    })
+            }
+
+            // initials
             fetchAttendance();
+            fetchAttendanceCounts();
         })
     </script>
 @endpush

@@ -86,6 +86,30 @@ class AttendanceController extends Controller
         ]);
     }
 
+    public function counts(Request $request)
+    {
+
+        $request->validate([
+            'class_id' => 'required|exists:classes,id',
+            'attendance_date' => 'required|date',
+        ]);
+
+        $classId = $request->class_id;
+        $date = $request->attendance_date;
+
+        $counts = Attendance::where('class_id', $classId)
+            ->where('attendance_date', $date)->get();
+        $present = $counts->where('status', 'present')->count();
+        $absent = $counts->where('status', 'absent')->count();
+        $late = $counts->where('status', 'late')->count();
+
+        return response()->json([
+            'present' => $present,
+            'absent' => $absent,
+            'late' => $late
+        ]);
+    }
+
     public function markAll(Request $request)
     {
         $request->validate([

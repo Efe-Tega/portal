@@ -23,6 +23,8 @@ Route::middleware('teacher.auth')->group(function () {
 
         // Ajax
         Route::get('/teacher/attendance/fetch', 'fetchAttendance')->name('teacher.attendance.fetch');
+        Route::get('/teacher/attendance/counts', 'counts')->name('teacher.attendance.counts');
+
         Route::post('/teacher/attendance/store', 'storeAttendance')->name('teacher.attendance.store');
         Route::post('/teacher/attendance/mark-all', 'markAll')->name('teacher.attendance.markAll');
     });
