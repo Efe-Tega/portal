@@ -6,6 +6,7 @@ use App\Models\School;
 use App\Models\Teacher;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
@@ -34,7 +35,12 @@ class DatabaseSeeder extends Seeder
         //     'password' => Hash::make('123456'),
         // ]);
 
-        Teacher::factory()->count(10)->create();
+        // Teacher::factory()->count(10)->create();
+
+        DB::table('exams')->insert([
+            ['name' => 'CA', 'total_marks' => 30],
+            ['name' => 'Exam', 'total_marks' => 70]
+        ]);
 
         // School::insert([
         //     [

@@ -13,4 +13,9 @@ class EduClass extends Model
     {
         return $this->belongsToMany(Teacher::class, 'teacher_classes', 'class_id', 'teacher_id');
     }
+
+    public function subjects()
+    {
+        return $this->hasMany(Subject::class);
+    }
 }

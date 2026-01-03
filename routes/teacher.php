@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\TeacherAuthController;
 use App\Http\Controllers\Teacher\AttendanceController;
 use App\Http\Controllers\Teacher\ClassManagement;
+use App\Http\Controllers\Teacher\GradeInputController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('teacher.auth')->group(function () {
@@ -27,5 +28,15 @@ Route::middleware('teacher.auth')->group(function () {
 
         Route::post('/teacher/attendance/store', 'storeAttendance')->name('teacher.attendance.store');
         Route::post('/teacher/attendance/mark-all', 'markAll')->name('teacher.attendance.markAll');
+    });
+
+    // Grades Input Controller
+    Route::controller(GradeInputController::class)->group(function () {
+        Route::get('/student/grades', 'studentGrades')->name('teacher.grade-input');
+        Route::get('/teacher/get_subjects/{classId}', 'getSubjects');
+        Route::get('/teacher/scores/preview', 'scoresPreview')->name('teacher.scores.preview');
+
+        Route::post('/teacher/import_scores', 'importScores')->name('teacher.import.scores');
+        Route::post('/teacher/calculate_grades', 'calculateGrades')->name('teacher.calculate.grades');
     });
 });

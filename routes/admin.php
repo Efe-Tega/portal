@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\StudentManagement;
+use App\Http\Controllers\Admin\SubjectManagement;
 use App\Http\Controllers\Admin\TeacherManagement;
 use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\CountryController;
@@ -26,6 +27,13 @@ Route::prefix('admin')->name('admin.')
             Route::post('/import/student', 'importStudents')->name('import.students');
             Route::post('/create/student', 'registerNewStudent')->name('create.new_student');
             Route::post('/update/student', 'updateStudent')->name('update.student');
+        });
+
+        // Subject Managemenet
+        Route::controller(SubjectManagement::class)->group(function () {
+            Route::get('/subjects', 'subjects')->name('subjects');
+
+            Route::post('/register/subject', 'registerSubject')->name('register.subject');
         });
 
         // TeacherManagement
