@@ -187,6 +187,31 @@ class GradeInputController extends Controller
         ]);
     }
 
+    public function scoreStatistics(Request $request)
+    {
+        $request->validate([
+            'class_id' => 'required',
+            'term_id' => 'required',
+            'exam_id' => 'required',
+            'subject_id' => 'required',
+            'year_id' => 'required',
+        ]);
+
+        $query = StudentRecordScore::where([
+            'class_id' => $request->class_id,
+            'term_id' => $request->term_id,
+            'exam_id' => $request->exam_id,
+            'subject_id' => $request->subject_id,
+            'year_id' => $request->year_id,
+        ])->whereNotNull('correct_answer');
+
+        return response()->json([
+            'average' => round($query->avg('correct_answer'), 2),
+            'highest' => $query->max('correct_answer'),
+            'lowest' => $query->min('correct_answer'),
+        ]);
+    }
+
     // public function calculateGrades(Request $request)
     // {
     //     $request->validate([

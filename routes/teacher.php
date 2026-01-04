@@ -35,6 +35,7 @@ Route::middleware('teacher.auth')->group(function () {
         Route::get('/student/grades', 'studentGrades')->name('teacher.grade-input');
         Route::get('/teacher/get_subjects/{classId}', 'getSubjects');
         Route::get('/teacher/scores/preview', 'scoresPreview')->name('teacher.scores.preview');
+        Route::get('/teacher/scores/stats', 'scoreStatistics')->name('teacher.scores.stats');
 
         Route::post('/teacher/import_scores', 'importScores')->name('teacher.import.scores');
         Route::post('/teacher/calculate_grades', 'calculateGrades')->name('teacher.calculate.grades');

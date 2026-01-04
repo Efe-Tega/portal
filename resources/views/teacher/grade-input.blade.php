@@ -243,35 +243,34 @@
                 updateTitle();
                 currentPage = 1;
                 fetchScores();
+                fetchStatistics();
             });
         });
 
-        function updateStatistics(students) {
-            const scores = students
-                .map(s => Number(s.score))
-                .filter(s => !isNaN(s));
+        function fetchStatistics() {
+            let data = {};
+            let valid = true;
 
-            const classAvg = document.getElementById('classAverage');
-            const highScore = document.getElementById('highestScore');
-            const lowScore = document.getElementById('lowestScore');
+            filters.forEach(id => {
+                const value = document.getElementById(id).value;
+                if (!value) valid = false;
+                data[id] = value;
+            });
 
-            if (!classAvg || !highScore || !lowScore) return;
+            if (!valid) return;
 
-            if (scores.length === 0) {
-                classAvg.textContent = '-';
-                highScore.textContent = '-';
-                lowScore.textContent = '-';
-                return;
-            }
-
-            const total = scores.reduce((sum, s) => sum + s, 0);
-            const average = (total / scores.length).toFixed(2);
-            const highest = Math.max(...scores);
-            const lowest = Math.min(...scores);
-
-            classAvg.textContent = average;
-            highScore.textContent = highest;
-            lowScore.textContent = lowest;
+            fetch(`{{ route('teacher.scores.stats') }}?` + new URLSearchParams(data))
+                .then(res => res.json())
+                .then(stats => {
+                    document.getElementById('classAverage').textContent = stats.average ?? '-';
+                    document.getElementById('highestScore').textContent = stats.highest ?? '-';
+                    document.getElementById('lowestScore').textContent = stats.lowest ?? '-';
+                })
+                .catch(() => {
+                    document.getElementById('classAverage').textContent = '-';
+                    document.getElementById('highestScore').textContent = '-';
+                    document.getElementById('lowestScore').textContent = '-';
+                });
         }
 
         function fetchScores(page = currentPage) {
@@ -321,10 +320,7 @@
                     if (typeof renderPagination === 'function') {
                         renderPagination(response);
                     }
-                    // renderPagination(response);
-                    if (typeof updateStatistics === 'function') {
-                        updateStatistics(response.students);
-                    }
+
                 })
                 .catch(err => {
                     console.error('FETCH ERROR:', err);
