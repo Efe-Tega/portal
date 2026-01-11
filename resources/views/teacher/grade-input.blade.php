@@ -4,16 +4,24 @@
 @section('teacher-content')
     <!-- Page Header -->
     <x-page-header>
-        <x-slot:title>Grade Input</x-slot:title>
-        <x-slot:subtitle>Enter student scores and grades for assessments</x-slot:subtitle>
+        <x-slot:title>Grades Upload</x-slot:title>
+        <x-slot:subtitle>Import student scores and grades for assessments</x-slot:subtitle>
     </x-page-header>
+
+    <div class="w-full bg-gray-300 rounded px-2 h-4 mt-4 mb-4 hidden" id="progressWrapper">
+        <div id="progressBar" class="h-4 rounded text-xs text-white text-center" style="width:0%">
+            0%
+        </div>
+    </div>
 
     <!-- Selection Section -->
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-6">
         <form id="excelImportForm" action="{{ route('teacher.import.scores') }}" method="post" enctype="multipart/form-data">
             @csrf
 
-            @if (session('success'))
+            <div id="alertContainer" class="mb-4"></div>
+
+            {{-- @if (session('success'))
                 <div class="flex items-center justify-between bg-emerald-500 text-white dark:bg-emerald-600 text-sm font-medium px-4 py-3 rounded-lg shadow-md mb-4"
                     role="alert">
                     <span>{{ session('success') }}</span>
@@ -31,7 +39,7 @@
                         ✕
                     </button>
                 </div>
-            @endif
+            @endif --}}
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
@@ -362,10 +370,10 @@
                 buttons += `
                 <button
                     onclick="fetchScores(${i})"
-                    class="px-3 py-1 bg-primary-600 text-white rounded text-sm
+                    class="px-3 py-1 text-sm font-medium border rounded 
                         ${i === currentPage
-                            ? 'bg-purple-600 text-white'
-                            : 'bg-gray-200 dark:bg-gray-700 hover:bg-gray-300'}">
+                            ? 'bg-purple-600 border-primary-600 text-white'
+                            : 'text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600'}">
                     ${i}
                 </button>
                 `;
@@ -400,6 +408,168 @@
         }
     </script>
 
+    <!-- PREVENT DEFAULT FORM SUBMIT -->
+    <script>
+        document.getElementById('excelImportForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const form = this;
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                })
+                .then(res => res.json())
+                .then(data => {
+                    trackProgress(data.progress_id);
+                })
+                .catch(err => {
+                    console.log(err);
+                    alert('Import failed');
+                });
+        });
+    </script>
+
+
+    <!-- IMPORT & PROGRESS BAR SCRIPT -->
+    <script>
+        let currentPercent = 0;
+
+        const importForm = document.getElementById('excelImportForm');
+        const importBtn = document.getElementById('importExcelBtn');
+        const btnDefaultText = importBtn.innerText;
+
+        importForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            errorShown = false;
+
+            // Disable import button and show importing...
+            importBtn.disabled = true;
+            importBtn.innerText = 'Importing...';
+
+            fetch(this.action, {
+                    method: 'POST',
+                    body: new FormData(this)
+                })
+                .then(res => res.json())
+                .then(data => {
+                    trackProgress(data.progress_id);
+                })
+                .catch(() => {
+                    showAlert('error', data.error);
+                    resetImportButton();
+                });
+        });
+
+        function trackProgress(id) {
+            const wrapper = document.getElementById('progressWrapper');
+            const bar = document.getElementById('progressBar');
+
+            wrapper.classList.remove('hidden');
+
+            const timer = setInterval(() => {
+                fetch(`/import-progress/${id}`)
+                    .then(res => res.json())
+                    .then(data => {
+
+                        const targetPercent = data.percentage;
+
+                        // Smooth animation
+                        if (currentPercent < targetPercent) {
+                            currentPercent += Math.max(1, Math.floor((targetPercent - currentPercent) / 5));
+                        }
+
+                        if (currentPercent > targetPercent) {
+                            currentPercent = targetPercent;
+                        }
+
+                        wrapper.classList.remove('bg-gray-300')
+                        wrapper.classList.add('bg-blue-600')
+                        bar.style.width = data.percentage + '%';
+                        bar.innerText = data.percentage + '%';
+
+                        if (data.status === 'done' && currentPercent >= 100 && !errorShown) {
+                            errorShown = true;
+                            clearInterval(timer);
+
+                            wrapper.classList.remove('bg-blue-600');
+                            wrapper.classList.add('bg-green-600');
+                            bar.innerText = 'Completed';
+
+                            showAlert('success', 'Scores imported successfully');
+
+                            setTimeout(() => {
+                                wrapper.classList.add('hidden');
+                                bar.classList.remove('bg-green-600');
+                                bar.style.width = '0%';
+                                bar.innerText = '0%';
+                                currentPercent = 0;
+
+                                resetImportButton();
+                                fetchScores();
+                            }, 1500);
+
+                        }
+
+                        if (data.status === 'failed' && !errorShown) {
+                            errorShown = true;
+                            clearInterval(timer)
+
+                            wrapper.classList.remove('bg-gray-300');
+                            wrapper.classList.add('bg-red-600');
+                            bar.innerText = 'Failed';
+
+                            showAlert('error', data.error)
+
+                            setTimeout(() => {
+                                wrapper.classList.add('hidden');
+                                resetImportButton();
+                            }, 1500);
+                        }
+                    });
+            }, 500);
+        }
+
+        function resetImportButton() {
+            importBtn.disabled = false;
+            importBtn.innerText = btnDefaultText;
+        }
+    </script>
+
+    <!-- ALERT -->
+    <script>
+        function showAlert(type, message) {
+            const container = document.getElementById('alertContainer');
+
+            const colors = {
+                success: 'bg-emerald-500 dark:bg-emerald-600',
+                error: 'bg-red-600 dark:bg-red-600',
+            };
+
+            const alert = document.createElement('div');
+            alert.className = `
+            flex items-center justify-between
+            ${colors[type]}
+            text-white text-sm font-medium
+            px-4 py-3 rounded-lg shadow-md mb-3
+            `;
+
+            alert.innerHTML = `
+            <span>${message}</span>
+            <button type="button" class="text-white hover:opacity-80 focus:outline-none"
+            aria-label="Close" > ✕ </button>
+            `;
+
+            alert.querySelector('button').onclick = () => alert.remove();
+            container.appendChild(alert);
+
+            setTimeout(() => {
+                alert.remove();
+            }, 6000);
+        }
+    </script>
 
     {{-- <script>
         document.getElementById('calculateGrades').addEventListener('click', function() {

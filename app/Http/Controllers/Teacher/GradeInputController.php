@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\ImportScoresJob;
 use App\Models\AcademicYear;
 use App\Models\EduClass;
 use App\Models\Exam;
+use App\Models\ImportProgress;
 use App\Models\Student;
 use App\Models\StudentRecordScore;
 use App\Models\Subject;
@@ -52,97 +54,28 @@ class GradeInputController extends Controller
             'year_id' => 'required',
         ]);
 
-        $spreadsheet = IOFactory::load($request->file('excelFile')->getPathname());
-        $sheet = $spreadsheet->getActiveSheet();
+        $relativePath = $request->file('excelFile')->store('imports');
+        $progress = ImportProgress::create([
+            'imported_by' => auth('teacher')->id(),
+            'importer_type' => 'teacher',
+            'status' => 'pending'
+        ]);
 
-        // Read Excel metadata
-        $excelTerm = trim($sheet->getCell('G4')->getValue());
-        $excelYear = trim($sheet->getCell('H4')->getValue());
-        $excelAssessment = trim($sheet->getCell('I4')->getValue());
-        $excelSubject = trim($sheet->getCell('F4')->getValue());
+        ImportScoresJob::dispatch(
+            $relativePath,
+            $request->only([
+                'class_id',
+                'term_id',
+                'exam_id',
+                'subject_id',
+                'year_id'
+            ]),
+            $progress
+        );
 
-
-        $selectedTerm = Term::find($request->term_id)?->name;
-        $selectedYear = AcademicYear::find($request->year_id)?->name;
-        $selectedExam = Exam::find($request->exam_id)?->name;
-        $selectedSubject = Subject::find($request->subject_id)?->name;
-
-        // dd($excelTerm . '=' . $selectedTerm, $excelYear . '=' . $selectedYear, $excelAssessment . '=' . $selectedExam, $excelSubject . '=' . $selectedSubject);
-
-        if (
-            strcasecmp($excelTerm, $selectedTerm) !== 0 ||
-            strcasecmp($excelYear, $selectedYear) !== 0 ||
-            strcasecmp($excelAssessment, $selectedExam) !== 0 ||
-            strcasecmp($excelSubject, $selectedSubject) !== 0
-        ) {
-            return back()->with(
-                'error',
-                "Import failed: Excel file does not match selected filters.
-                Please ensure Term, Year, Assessment and Subject are the same with excel data."
-            );
-        }
-
-        $rows = $sheet->toArray();
-        $rows = array_slice($rows, 3);
-
-        foreach ($rows as $index => $row) {
-            // ✅ skip completely empty rows
-            if (empty(array_filter($row))) {
-                continue;
-            }
-
-            $excelRow = $index + 4;
-
-            // Column mapping
-            $registrationNo = trim($row[4] ?? null);
-            $score = isset($row[9]) && $row[9] !== '' ? (int) $row[9] : 0;
-            $total = isset($row[10]) ? (int) $row[10] : null;
-
-            if (!$registrationNo) {
-                return back()->with('error', "Import failed: Missing registration number at row {$excelRow}");
-            }
-
-            // Optional: enforce score range (CA1 max 10)
-            // if ($score < 0 || $score > 10) {
-            //     $errors[] = [
-            //         'row' => $excelRow,
-            //         'registration' => $registrationNo,
-            //         'reason' => 'Score out of allowed range',
-            //     ];
-            //     continue;
-            // }
-
-            $student = User::where('registration_number', $registrationNo)->first();
-            if (!$student) {
-                return back()->with(
-                    'error',
-                    "Import failed: Student with registration number {$registrationNo} not found (row {$excelRow})"
-                );
-            }
-
-            if ((int) $student->class_id !== (int) $request->class_id) {
-                return back()->with(
-                    'error',
-                    "Import failed: Student {$registrationNo} does not belong to the selected class (row {$excelRow})"
-                );
-            }
-
-            StudentRecordScore::updateOrCreate(
-                [
-                    'user_id' => $student->id,
-                    'class_id' => $request->class_id,
-                    'term_id' => $request->term_id,
-                    'exam_id' => $request->exam_id,
-                    'subject_id' => $request->subject_id,
-                    'year_id' => $request->year_id,
-                ],
-                [
-                    'correct_answer' => $score,
-                    'total_questions' => $total,
-                ]
-            );
-        }
-        return back()->with('success', "Scores Imported successfully");
+        return response()->json([
+            'progress_id' => $progress->id
+        ]);
     }
 
     public function scoresPreview(Request $request)

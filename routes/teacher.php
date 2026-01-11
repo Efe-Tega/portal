@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\TeacherAuthController;
 use App\Http\Controllers\Teacher\AttendanceController;
 use App\Http\Controllers\Teacher\ClassManagement;
 use App\Http\Controllers\Teacher\GradeInputController;
+use App\Models\ImportProgress;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('teacher.auth')->group(function () {
@@ -36,6 +37,18 @@ Route::middleware('teacher.auth')->group(function () {
         Route::get('/teacher/get_subjects/{classId}', 'getSubjects');
         Route::get('/teacher/scores/preview', 'scoresPreview')->name('teacher.scores.preview');
         Route::get('/teacher/scores/stats', 'scoreStatistics')->name('teacher.scores.stats');
+
+        Route::get('/import-progress/{progress}', function (ImportProgress $progress) {
+            $percentage = $progress->total_rows > 0
+                ? round(($progress->processed_rows / $progress->total_rows) * 100)
+                : 0;
+
+            return response()->json([
+                'status' => $progress->status,
+                'percentage' => $percentage,
+                'error' => $progress->error
+            ]);
+        });
 
         Route::post('/teacher/import_scores', 'importScores')->name('teacher.import.scores');
         Route::post('/teacher/calculate_grades', 'calculateGrades')->name('teacher.calculate.grades');

@@ -17,6 +17,11 @@
     <!-- Toastify CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
+    <style>
+        #progressBar {
+            transition: width 0.4s ease;
+        }
+    </style>
 </head>
 
 <body class="bg-gray-50 dark:bg-gray-900">

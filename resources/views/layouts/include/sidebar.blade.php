@@ -92,7 +92,7 @@
                     <x-sidebar-link route="teacher.dashboard" label="Dashboard" icon="home" />
                     <x-sidebar-link route="teacher.classes" label="My Classes" icon="pupils" />
                     <x-sidebar-link route="teacher.attendance" label="Attendance" icon="clipboard_check" />
-                    <x-sidebar-link route="teacher.grade-input" label="Grade Input" icon="signal_bars" />
+                    <x-sidebar-link route="teacher.grade-input" label="Grades Upload" icon="signal_bars" />
                     <x-sidebar-link route="teacher.dashboard" label="Assignments" icon="file" />
                     <x-sidebar-link route="teacher.dashboard" label="Timetable" icon="calender" />
                     <x-sidebar-link route="teacher.dashboard" label="Profile" icon="user" />
