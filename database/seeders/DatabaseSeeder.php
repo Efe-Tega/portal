@@ -37,9 +37,27 @@ class DatabaseSeeder extends Seeder
 
         // Teacher::factory()->count(10)->create();
 
-        DB::table('exams')->insert([
-            ['name' => 'CA', 'total_marks' => 30],
-            ['name' => 'Exam', 'total_marks' => 70]
+        // DB::table('exams')->insert([
+        //     ['name' => 'CA', 'total_marks' => 30],
+        //     ['name' => 'Exam', 'total_marks' => 70]
+        // ]);
+
+        DB::table('affective_traits')->insert([
+            ['name' => 'Punctuality'],
+            ['name' => 'Class Attendance'],
+            ['name' => 'Reliability'],
+            ['name' => 'Neatness'],
+            ['name' => 'Politeness'],
+            ['name' => 'Honesty'],
+            ['name' => 'Relationship with others'],
+            ['name' => 'Self Control'],
+            ['name' => 'Spirit of Co-operation'],
+            ['name' => 'Sense of Responsibility'],
+            ['name' => 'Attentiveness'],
+            ['name' => 'Initiative'],
+            ['name' => 'Leadership Quality'],
+            ['name' => 'Perseverance'],
+            ['name' => 'Health'],
         ]);
 
         // School::insert([

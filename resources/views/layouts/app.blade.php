@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title> @yield('title') - School Portal</title>
     <script>
         // Immediately apply the saved theme before rendering
@@ -21,18 +22,26 @@
         #progressBar {
             transition: width 0.4s ease;
         }
+
+        .sport-icon {
+            transition: transform 0.2s ease;
+        }
+
+        .sport-checkbox:checked~.sport-status .sport-icon {
+            transform: scale(1.1);
+        }
     </style>
 </head>
 
-<body class="bg-gray-50 dark:bg-gray-900">
+<body class="bg-gray-50 dark:bg-gray-900 ">
     <!-- Sidebar -->
     @include('layouts.include.sidebar')
 
-    <div class="md:ml-64">
+    <div class="md:ml-64 min-h-screen flex flex-col">
         <!-- Top Navigation -->
         @include('layouts.include.header')
 
-        <main class="p-4 sm:p-6 lg:p-8">
+        <main class="p-4 sm:p-6 lg:p-8 flex-grow">
             @auth('admin')
                 @yield('admin-content')
             @endauth

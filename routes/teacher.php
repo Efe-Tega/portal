@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\TeacherAuthController;
+use App\Http\Controllers\Teacher\AffectiveTraitManagement;
 use App\Http\Controllers\Teacher\AttendanceController;
 use App\Http\Controllers\Teacher\ClassManagement;
 use App\Http\Controllers\Teacher\GradeInputController;
@@ -52,5 +53,15 @@ Route::middleware('teacher.auth')->group(function () {
 
         Route::post('/teacher/import_scores', 'importScores')->name('teacher.import.scores');
         Route::post('/teacher/calculate_grades', 'calculateGrades')->name('teacher.calculate.grades');
+    });
+
+    Route::controller(AffectiveTraitManagement::class)->group(function () {
+        Route::get('/teacher/affective/trait', 'index')->name('teacher.affective-trait');
+        Route::get('/class/{class}/students', 'byClass');
+        Route::get('/student/{student}/traits', 'studentTraits');
+        Route::get('/teacher/student-sports/{student}', 'getSports');
+
+        Route::post('/teacher/save-trait-score', 'saveTraitScore');
+        Route::post('/teacher/save-sport-participation', 'saveSportParticipation');
     });
 });

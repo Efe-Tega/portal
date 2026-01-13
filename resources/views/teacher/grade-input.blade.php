@@ -21,26 +21,6 @@
 
             <div id="alertContainer" class="mb-4"></div>
 
-            {{-- @if (session('success'))
-                <div class="flex items-center justify-between bg-emerald-500 text-white dark:bg-emerald-600 text-sm font-medium px-4 py-3 rounded-lg shadow-md mb-4"
-                    role="alert">
-                    <span>{{ session('success') }}</span>
-                    <button type="button" class="text-white hover:text-emerald-200 focus:outline-none"
-                        onclick="this.parentElement.remove();" aria-label="Close">
-                        ✕
-                    </button>
-                </div>
-            @elseif (session('error'))
-                <div class="flex items-center justify-between bg-red-600 text-white dark:bg-red-600 text-sm font-medium px-4 py-3 rounded-lg shadow-md mb-4"
-                    role="alert">
-                    <span>{{ session('error') }}</span>
-                    <button type="button" class="text-white hover:text-emerald-200 focus:outline-none"
-                        onclick="this.parentElement.remove();" aria-label="Close">
-                        ✕
-                    </button>
-                </div>
-            @endif --}}
-
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Select Class</label>
