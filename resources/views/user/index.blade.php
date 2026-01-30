@@ -1,6 +1,12 @@
 @extends('user.user-main')
 
 @section('main-content')
+    <!-- Welcome Section -->
+    <x-page-header>
+        <x-slot:title>Welcome back, Adewale! 👋</x-slot:title>
+        <x-slot:subtitle>Here's what's happening with your studies today.</x-slot:subtitle>
+    </x-page-header>
+
     <!-- Stats Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div

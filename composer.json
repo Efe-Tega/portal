@@ -32,6 +32,7 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
+            "app/Helpers/ResultHelper.php",
             "app/Helpers/NameHelper.php",
             "app/Helpers/formatDate.php",
             "app/Helpers/StudentRegistration.php"

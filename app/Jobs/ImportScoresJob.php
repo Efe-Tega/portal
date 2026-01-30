@@ -73,6 +73,9 @@ class ImportScoresJob implements ShouldQueue
             $rows = array_slice($sheet->toArray(), 3);
             $this->progress->update(['total_rows' => count($rows)]);
 
+            $isCA = in_array($this->data['exam_id'], [1]);
+            $isExam = in_array($this->data['exam_id'], [2]);
+
             foreach ($rows as $index => $row) {
                 if (empty(array_filter($row))) {
                     $this->progress->increment('processed_rows');
@@ -81,8 +84,6 @@ class ImportScoresJob implements ShouldQueue
 
                 $excelRow = $index + 4;
                 $registrationNo = trim($row[4] ?? null);
-                $score = isset($row[9]) && $row[9] !== '' ? (int) $row[9] : 0;
-                $total = isset($row[10]) ? (int) $row[10] : null;
 
                 if (!$registrationNo) {
                     throw new \Exception("Missing registration number at row {$excelRow}");
@@ -99,6 +100,24 @@ class ImportScoresJob implements ShouldQueue
                     throw new \Exception(
                         "Student {$registrationNo} not in selected class (row {$excelRow})"
                     );
+                }
+
+                if ($isExam) {
+                    if (!isset($row[11])) {
+                        throw new \Exception("Invalid Exam template at row {$excelRow}");
+                    }
+
+                    $score = isset($row[11]) && $row[11] !== '' ? (int) $row[11] : 0;
+                    $total = isset($row[12]) ? (int) $row[12] : null;
+                }
+
+                if ($isCA) {
+                    if (!isset($row[9])) {
+                        throw new \Exception("Invalid CA template at row {$excelRow}");
+                    }
+
+                    $score = isset($row[9]) && $row[9] !== '' ? (int) $row[9] : 0;
+                    $total = isset($row[10]) ? (int) $row[10] : null;
                 }
 
                 StudentRecordScore::updateOrCreate([

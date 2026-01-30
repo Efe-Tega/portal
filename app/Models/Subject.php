@@ -12,4 +12,9 @@ class Subject extends Model
     {
         return $this->belongsTo(EduClass::class);
     }
+
+    public function teacher()
+    {
+        return $this->belongsTo(Teacher::class);
+    }
 }

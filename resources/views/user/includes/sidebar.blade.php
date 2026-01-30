@@ -18,17 +18,7 @@
         <!-- Navigation -->
         <nav class="flex-1 p-4 overflow-y-auto">
             <ul class="space-y-1">
-                <li>
-                    <a href="index.html"
-                        class="flex items-center space-x-3 px-4 py-3 text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/20 rounded-lg font-medium">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
-                            </path>
-                        </svg>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
+                <x-sidebar-link route="user.dashboard" label="Dashboard" icon="home" />
                 <li>
                     <a href="courses.html"
                         class="flex items-center space-x-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg font-medium">
@@ -40,17 +30,8 @@
                         <span>Subjects</span>
                     </a>
                 </li>
-                <li>
-                    <a href="grades.html"
-                        class="flex items-center space-x-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg font-medium">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
-                            </path>
-                        </svg>
-                        <span>Results</span>
-                    </a>
-                </li>
+
+                <x-sidebar-link route="user.grades" label="Results" icon="signal_bars" />
 
                 <li>
                     <a href="profile.html"

@@ -8,12 +8,6 @@
         <x-slot:subtitle>Import student scores and grades for assessments</x-slot:subtitle>
     </x-page-header>
 
-    <div class="w-full bg-gray-300 rounded px-2 h-4 mt-4 mb-4 hidden" id="progressWrapper">
-        <div id="progressBar" class="h-4 rounded text-xs text-white text-center" style="width:0%">
-            0%
-        </div>
-    </div>
-
     <!-- Selection Section -->
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-6">
         <form id="excelImportForm" action="{{ route('teacher.import.scores') }}" method="post" enctype="multipart/form-data">
@@ -99,6 +93,12 @@
                 <div id="importStatus" class="mt-2 text-sm hidden"></div>
             </div>
         </form>
+    </div>
+
+    <div class="w-full bg-gray-300 rounded px-2 h-4 mt-4 mb-4 hidden" id="progressWrapper">
+        <div id="progressBar" class="h-4 rounded text-xs text-white text-center" style="width:0%">
+            0%
+        </div>
     </div>
 
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
@@ -388,30 +388,6 @@
         }
     </script>
 
-    <!-- PREVENT DEFAULT FORM SUBMIT -->
-    <script>
-        document.getElementById('excelImportForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const form = this;
-            const formData = new FormData(form);
-
-            fetch(form.action, {
-                    method: 'POST',
-                    body: formData,
-                })
-                .then(res => res.json())
-                .then(data => {
-                    trackProgress(data.progress_id);
-                })
-                .catch(err => {
-                    console.log(err);
-                    alert('Import failed');
-                });
-        });
-    </script>
-
-
     <!-- IMPORT & PROGRESS BAR SCRIPT -->
     <script>
         let currentPercent = 0;
@@ -420,6 +396,7 @@
         const importBtn = document.getElementById('importExcelBtn');
         const btnDefaultText = importBtn.innerText;
 
+        console.count('IMPORT SCRIPT LOADED');
         importForm.addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -515,6 +492,13 @@
         function resetImportButton() {
             importBtn.disabled = false;
             importBtn.innerText = btnDefaultText;
+
+            const fileInput = document.getElementById('excelFileInput');
+            if (fileInput) {
+                fileInput.value = '';
+            }
+
+            fetchStatistics()
         }
     </script>
 

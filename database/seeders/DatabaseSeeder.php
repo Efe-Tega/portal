@@ -42,22 +42,28 @@ class DatabaseSeeder extends Seeder
         //     ['name' => 'Exam', 'total_marks' => 70]
         // ]);
 
-        DB::table('affective_traits')->insert([
-            ['name' => 'Punctuality'],
-            ['name' => 'Class Attendance'],
-            ['name' => 'Reliability'],
-            ['name' => 'Neatness'],
-            ['name' => 'Politeness'],
-            ['name' => 'Honesty'],
-            ['name' => 'Relationship with others'],
-            ['name' => 'Self Control'],
-            ['name' => 'Spirit of Co-operation'],
-            ['name' => 'Sense of Responsibility'],
-            ['name' => 'Attentiveness'],
-            ['name' => 'Initiative'],
-            ['name' => 'Leadership Quality'],
-            ['name' => 'Perseverance'],
-            ['name' => 'Health'],
+        // DB::table('affective_traits')->insert([
+        //     ['name' => 'Punctuality'],
+        //     ['name' => 'Class Attendance'],
+        //     ['name' => 'Reliability'],
+        //     ['name' => 'Neatness'],
+        //     ['name' => 'Politeness'],
+        //     ['name' => 'Honesty'],
+        //     ['name' => 'Relationship with others'],
+        //     ['name' => 'Self Control'],
+        //     ['name' => 'Spirit of Co-operation'],
+        //     ['name' => 'Sense of Responsibility'],
+        //     ['name' => 'Attentiveness'],
+        //     ['name' => 'Initiative'],
+        //     ['name' => 'Leadership Quality'],
+        //     ['name' => 'Perseverance'],
+        //     ['name' => 'Health'],
+        // ]);
+
+        DB::table('school_infos')->insert([
+            'school_name' => 'Nasdec Royal Schools',
+            'previous_term_id' => 3,
+            'previous_year_id' => 1,
         ]);
 
         // School::insert([

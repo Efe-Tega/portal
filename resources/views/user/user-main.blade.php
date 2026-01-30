@@ -23,17 +23,12 @@
     @include('user.includes.sidebar')
 
     <!-- Main Content -->
-    <div class="md:ml-64">
+    <div class="md:ml-64 min-h-screen flex flex-col">
         <!-- Top Navigation -->
         @include('user.includes.header')
 
         <!-- Page Content -->
-        <main class="p-4 sm:p-6 lg:p-8">
-            <!-- Welcome Section -->
-            <div class="mb-8">
-                <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Welcome back, Adewale! 👋</h2>
-                <p class="text-gray-600 dark:text-gray-400 mt-1">Here's what's happening with your studies today.</p>
-            </div>
+        <main class="p-4 sm:p-6 lg:p-8 flex-grow">
 
             @yield('main-content')
 
@@ -50,7 +45,7 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('assets/js/theme.js') }}"></script>
+    <script src="{{ asset('system_assets/assets/js/theme.js') }}"></script>
 </body>
 
 </html>

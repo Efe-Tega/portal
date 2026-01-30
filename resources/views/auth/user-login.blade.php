@@ -79,7 +79,8 @@
                                         d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                                 </svg>
                             </div>
-                            <input type="text" id="studentId" name="registration_number" required
+                            <input type="text" id="studentId" name="registration_number" value="NRS/25/JSS1/0001"
+                                required
                                 class="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition-all bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                                 placeholder="e.g., 2024/SS2/0123">
                         </div>

@@ -14,6 +14,12 @@ return new class extends Migration
         Schema::create('school_infos', function (Blueprint $table) {
             $table->id();
             $table->string('school_name')->nullable();
+            $table->foreignId('previous_term_id')->nullable();
+            $table->foreignId('previous_year_id')->nullable();
+            $table->string('current_term_id')->nullable();
+            $table->string('current_year_id')->nullable();
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
             $table->timestamps();
         });
     }

@@ -106,7 +106,7 @@ class GradeInputController extends Controller
             $record = $scores->get($student->id);
 
             return [
-                'name' => $student->lastname . '' . $student->firstname,
+                'name' => fullname($student->lastname, $student->middlename, $student->firstname),
                 'reg_no' => $student->registration_number,
                 'score' => $record->correct_answer ?? null,
             ];
